@@ -104,231 +104,172 @@ function handleText(text) {
 				// Remove all commatas
 				match[k] = match[k].replace(/\,/g, '.');
 
-				if (settings["metric"]) {
-					// Convert to appropriate units and round to decimalPlaces decimal Places
-					// Default: 2
+				// Convert to appropriate units and round to decimalPlaces decimal Places
+				// Default: 2
+				if (settings["length"] === settings["metric"]) {
 					switch (key) {
 						case "inch":
-							if (settings["length"]) {
-								result = match[k] * 2.54;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " cm ";
-							} else {
-								result = matchcopy.original;
-							}
+							result = match[k] * 2.54;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " cm ";
 							break;
 						case "feet":
-							if (settings["length"]) {
-								result = match[k] * 30.48;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " cm ";
-							} else {
-								result = matchcopy.original;
-							}
+							result = match[k] * 30.48;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " cm ";
 							break;
 						case "yard":
-							if (settings["length"]) {
-								result = match[k] * 0.9144;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + "m ";
-							} else {
-								result = matchcopy.original;
-							}
+							result = match[k] * 0.9144;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + "m ";
 							break;
 						case "mile":
-							if (settings["length"]) {
-								result = match[k] * 1.609344;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " km ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "ounce":
-							if (settings["mass"]) {
-								result = match[k] * 28.349523;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " g ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "pound":
-							if (settings["mass"]) {
-								result = match[k] * 0.45359237;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " kg ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "stone":
-							if (settings["mass"]) {
-								result = match[k] * 6.35029318;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " kg ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "fluidounce":
-							if (settings["volume"]) {
-								result = match[k] * 29.57270;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " ml ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "pint":
-							if (settings["volume"]){
-								result = match[k] * 0.473176473;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " l ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "quart":
-							if (settings["volume"]) {
-								result = match[k] * 1.13652297;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " l ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "gallon":
-							if (settings["volume"]) {
-								result = match[k] * 3.78541178;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " l ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "fahrenheit":
-							if (settings["temperature"]) {
-								result = ((match[k] - 32) * (5/9));
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " °C ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "mph":
-							if (settings["speed"]) {
-								result = match[k] * 1.609344;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " kph ";
-							} else {
-								result = matchcopy.original;
-							}
+							result = match[k] * 1.609344;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " km ";
 							break;
 					}
 				} else {
 					switch (key) {
 						case "millimeter":
-							if (settings["length"]) {
-								result = match[k] * 0.0393700787;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " in ";
-							} else {
-								result = matchcopy.original;
-							}
+							result = match[k] * 0.0393700787;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " in ";
 							break;
 						case "centimeter":
-							if (settings["length"]) {
-								result = match[k] * 0.393700787;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " in ";
-							} else {
-								result = matchcopy.original;
-							}
+							result = match[k] * 0.393700787;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " in ";
 							break;
 						case "meter":
-							if (settings["length"]) {
-								result = match[k] * 1.0936133;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " yd ";
-							} else {
-								result = matchcopy.original;
-							}
+							result = match[k] * 1.0936133;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " yd ";
 							break;
 						case "kilometer":
-							if (settings["length"]) {
-								result = match[k] * 0.62137119;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " mi ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "milligram":
-							if (settings["mass"]) {
-								result = match[k] * 0.0000352739619;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " oz ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "gram":
-							if (settings["mass"]) {
-								result = match[k] * 0.0022046226;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " lbs ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "kilogram":
-							if (settings["mass"]) {
-								result = match[k] * 2.2046226;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " lbs ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "milliliter":
-							if (settings["volume"]) {
-								result = match[k] * 0.03381497;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " fl oz ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "liter":
-							if (settings["volume"]) {
-								result = match[k] * 0.2641795;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " gal ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "celsius":
-							if (settings["temperature"]) {
-								result = (match[k] * (9/5)) + 32;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " °F ";
-							} else {
-								result = matchcopy.original;
-							}
-							break;
-						case "kph":1.609344
-							if (settings["speed"]) {
-								result = match[k] / 1.609344;
-								result = result.toFixed(settings["decimalPlaces"].valueOf());
-								result = " " + result + " mph ";
-							} else {
-								result = matchcopy.original;
-							}
+							result = match[k] * 0.62137119;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " mi ";
 							break;
 					}
 				}
+
+				if (settings["mass"] === settings["metric"]) {
+					switch (key) {
+						case "ounce":
+							result = match[k] * 28.349523;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " g ";
+							break;
+						case "pound":
+							result = match[k] * 0.45359237;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " kg ";
+							break;
+						case "stone":
+							result = match[k] * 6.35029318;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " kg ";
+							break;
+					}
+				} else {
+					switch (key) {
+						case "milligram":
+							result = match[k] * 0.0000352739619;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " oz ";
+							break;
+						case "gram":
+							result = match[k] * 0.0022046226;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " lbs ";
+							break;
+						case "kilogram":
+							result = match[k] * 2.2046226;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " lbs ";
+							break;
+					}
+				}
+
+				if (settings["volume"] === settings["metric"]) {
+					switch (key) {
+						case "fluidounce":
+							result = match[k] * 29.57270;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " ml ";
+							break;
+						case "pint":
+							result = match[k] * 0.473176473;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " l ";
+							break;
+						case "quart":
+							result = match[k] * 1.13652297;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " l ";
+							break;
+						case "gallon":
+							result = match[k] * 3.78541178;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " l ";
+							break;
+					}
+				} else {
+					switch (key) {
+						case "milliliter":
+							result = match[k] * 0.03381497;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " fl oz ";
+							break;
+						case "liter":
+							result = match[k] * 0.2641795;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " gal ";
+							break;
+					}
+				}
+
+				if (settings["temperature"] === settings["metric"]) {
+					switch (key) {
+						case "fahrenheit":
+							result = ((match[k] - 32) * (5/9));
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " °C ";
+							break;
+					}
+				} else {
+					switch (key) {
+						case "celsius":
+							result = (match[k] * (9/5)) + 32;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " °F ";
+							break;
+					}
+				}
+
+				if (settings["speed"] === settings["metric"]) {
+					switch (key) {
+						case "mph":
+							result = match[k] * 1.609344;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " kph ";
+							break;
+					}
+				} else {
+					switch (key) {
+						case "kph":
+							result = match[k] / 1.609344;
+							result = result.toFixed(settings["decimalPlaces"].valueOf());
+							result = " " + result + " mph ";
+							break;
+					}
+				}
+
+				if (result === undefined) {
+					result = matchcopy.original;
+				}
+
 				text = text.replace(matchcopy.original, result);
 			}
 		}
