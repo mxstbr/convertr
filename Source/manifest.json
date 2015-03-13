@@ -1,0 +1,22 @@
+{
+	"manifest_version": 2,
+	"name": "Conversion",
+	"version": "0.4",
+	"description": "Converts units on webpages automatically",
+	"content_scripts":
+	[
+		{
+			"matches": ["*://*/*"],
+			"js": ["content_script.js"],
+			"run_at": "document_end"
+		}
+	],
+	"browser_action": {
+		"default_icon": "icon.png",
+		"default_popup": "popup.html"
+	},
+	"permissions": [
+		"storage"
+	]
+}
+

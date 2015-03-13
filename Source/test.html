@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ultimate Conversion Test</title>
+
+	<style>
+		/**
+		 *
+		 * =======================================================================
+		   Unicode Ampersand
+		 * =======================================================================
+		 */
+
+		@font-face {
+		  font-family: "Ampersand";
+		  src: local("Georgia"), local("Garamond"), local("Palatino"), local("Book Antiqua");
+		  unicode-range: U+0026;
+		}
+
+		@font-face {
+		  font-family: "Ampersand";
+		  src: local("Georgia");
+		  unicode-range: U+270C;
+		}
+
+
+		/**
+		 *
+		 * Extend this class on any element of your
+		 * choice for ampersands.
+		 *
+		 * For example:
+
+		  <h6 class="ampersand">Dewey Cheat 'em & Howe</h6>
+
+		 */
+		.typl8-ampersand {
+		  font-family: Ampersand, Verdana, sans-serif;
+		}
+
+
+		/**
+		 *
+		 * =======================================================================
+		   Word Wrap
+		 * =======================================================================
+		 */
+
+		.typl8-breakword {
+		  word-wrap: break-word;
+		}
+
+		.typl8-normal-wrap {
+		  word-wrap: normal;
+		}
+
+		.typl8-inherit-wrap {
+		  word-wrap: auto;
+		}
+
+
+		/**
+		 *
+		 * =======================================================================
+		   OpenType
+		 * =======================================================================
+		 */
+
+		.typl8-font-feature--smcp {
+		  -webkit-font-feature-settings: "smcp";
+		  -moz-font-feature-settings: "smcp";
+		  -ms-font-feature-settings: "smcp";
+		  font-feature-settings: "smcp";
+		}
+
+		.typl8-font-feature--onum {
+		  -webkit-font-feature-settings: 'onum';
+		  -moz-font-feature-settings: 'onum';
+		  -ms-font-feature-settings: 'onum';
+		  font-feature-settings: 'onum';
+		}
+
+
+		/**
+		 *
+		 * =======================================================================
+		 * Drop Capitals:
+		 * Extend this object into your markup.
+
+		   <p class="typl8-drop-cap">What a wonderful day it is out there wouldn't you'd say?</p>
+
+		  * =======================================================================
+		 */
+
+		.typl8-drop-cap:first-letter {
+		  float: left;
+		  margin: 10px 10px 0 0;
+		  padding: 0 20px;
+		  font-size: 4em;
+		  font-family: inherit;
+		  line-height: 1;
+		  text-indent: 0;
+		  background: transparent;
+		  color: inherit;
+		}
+
+		p + .typl8-drop-cap {
+		  text-indent: 0;
+		  margin-top: 0;
+		}
+
+
+		/**
+		 *
+		 * =======================================================================
+		   Base Type
+		 * =======================================================================
+		 *
+		 */
+
+		html {
+		  font: normal 112.5%/1.65 serif; /* base font size 18px with 1.65 line-height */
+		}
+
+		body {
+		  -webkit-hyphens: auto;
+		  -moz-hyphens: auto;
+		  -ms-hyphens: auto;
+		  hyphens: auto;
+		  word-wrap: break-word;
+		  color: #444444;
+		}
+
+
+		/**
+		 *
+		 * =======================================================================
+		   Fine Print
+		 * =======================================================================
+		 */
+
+		small {
+		  font-size: 65%;
+		}
+
+
+		/**
+		 *
+		 * =======================================================================
+		   Headings
+		 * =======================================================================
+		 */
+
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+		  line-height: 1;
+		  margin-top: 0;
+		  text-rendering: optimizeLegibility; /*  voodoo to enable ligatures and kerning | https://developer.mozilla.org/en-US/docs/CSS/text-rendering */
+		  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+		  color: #222222;
+		}
+
+
+		/**
+		* Extend included classes on any element of your
+		* choosing for adjusting type based on the scale
+		* provided.
+
+		* For example:
+
+		 <h6 class="typl8-giga">Awesome Headline</h6>
+		 <p class="typl8-tera">a story about a dude</p>
+
+		* Our Type Scale is as follows with px fallbacks
+		* for IE 6-8 as they do not understand REM units.
+		*
+		* 18, 21, 24, 36, 48, 60, 72, 90, 117
+		*
+		*
+		* Explanation:
+		* margin-bottom = ( base font-size * base line-height ) / current font-size
+		*
+		* Makes sure that there's always one unit of measure's worth of space between shit
+		* for headings. This is better than spacing using line-height because of the wrapping issue where we have
+		* wrapping onto 2 lines with a high line-height.
+		 */
+
+		.typl8-tera {
+		  font-size: 117px;
+		  font-size: 6.5rem; /* 117 / 18 = 6.5 */
+		  margin-bottom: 4.56923px;
+		  margin-bottom: 0.25385rem;
+		}
+
+		.typl8-giga {
+		  font-size: 90px;
+		  font-size: 5rem; /* 90 / 18 = 5 */
+		  margin-bottom: 5.94px;
+		  margin-bottom: 0.33rem;
+		}
+
+		.typl8-mega {
+		  font-size: 72px;
+		  font-size: 4rem; /* 72 / 18 = 4 */
+		  margin-bottom: 7.425px;
+		  margin-bottom: 0.4125rem;
+		}
+
+		h1,
+		.typl8-alpha {
+		  font-size: 60px;
+		  font-size: 3.33333rem; /* 60 / 18 = 3.3333 */
+		  margin-bottom: 8.91px;
+		  margin-bottom: 0.495rem;
+		}
+
+		h2,
+		.typl8-beta {
+		  font-size: 48px;
+		  font-size: 2.6667rem; /* 48 / 18 = 2.6667 */
+		  margin-bottom: 11.1375px;
+		  margin-bottom: 0.61875rem;
+		}
+
+		h3,
+		.typl8-gamma {
+		  font-size: 36px;
+		  font-size: 2rem; /* 36 / 18 = 2 */
+		  margin-bottom: 14.85px;
+		  margin-bottom: 0.825rem;
+		}
+
+		h4,
+		.typl8-delta {
+		  font-size: 24px;
+		  font-size: 1.3333333333333333rem; /* 24 / 18 = 1.3333 */
+		  margin-bottom: 22.275px;
+		  margin-bottom: 1.2375rem;
+		}
+
+		h5,
+		.typl8-epsilon {
+		  font-size: 21px;
+		  font-size: 1.16667rem; /* 21 / 18 = 1.1667 */
+		  margin-bottom: 25.45714px;
+		  margin-bottom: 1.41429rem;
+		}
+
+		h6,
+		.typl8-zeta {
+		  font-size: 18px;
+		  font-size: 1rem; /* 18 = 18 × 1 */
+		  margin-bottom: 29.7px;
+		  margin-bottom: 1.65rem;
+		}
+
+
+		/**
+		 *
+		 * =======================================================================
+		   Paragraphs and Indentation
+		 * =======================================================================
+		 */
+
+		p {
+		  margin: auto auto 1.5em; /* bottom margin for paragraphs */
+		  font-family: Georgia,Times,Times New Roman,serif;
+		}
+
+		p + p {
+		  margin-top: -1.5em; /* no top margin on subsequent paragraphs */
+		}
+
+
+		/**
+		 *
+		 * =======================================================================
+		   Hyphens
+		 * =======================================================================
+		 */
+
+		input,
+		abbr,
+		acronym,
+		blockquote,
+		code,
+		kbd,
+		q,
+		samp,
+		var {
+		  /* Accepted values: [ none | manual | auto ] */ /* http://meyerweb.com/eric/thoughts/2012/12/17/where-to-avoid-css-hyphenation */
+		  -webkit-hyphens: none;
+		  -moz-hyphens: none;
+		  -ms-hyphens: none;
+		  hyphens: none;
+		}
+
+
+		/**
+		 *
+		 * =======================================================================
+		   Code Blocks
+		 * =======================================================================
+		 */
+
+		pre code {
+		  word-wrap: normal;
+		  white-space: -moz-pre-wrap;
+		  white-space: pre-wrap;
+		}
+
+		pre {
+		  white-space: pre;
+		}
+
+		code {
+		  white-space: pre;
+		  font-family: monospace;
+		}
+	</style>
+</head>
+<body>
+	<h1>Conversion Test</h1>
+	<p>The two numbers adjecent should be the same, provided you have the extension enabled. (Ignore rounding mistakes) E.g. 95 in = 95 in</p>
+
+	<h3>Inch to Centimeter</h3>
+	<p>95 in = 241.30 cm, 95 inch = 241.30 centimeter, 95 inches = 241.30 centimeters</p>
+
+	<h3>Foot to Centimeter</h3>
+	<p>95 ft = 2895.60 cm, 95 foot = 2895.60 centimeter, 95 feet = 2895.60 centimeters</p>
+
+	<h3>Yard to Meter</h3>
+	<p>95 yd = 86.86 m, 95 yard = 86.86 meter, 95 yards = 86.86 meters</p>
+
+	<h3>Mile to Kilometer</h3>
+	<p>95 mi = 152.88 km, 95 mile = 152.88 kilometer, 95 miles = 152.88 kilometers</p>
+
+	<h3>Ounce to Gram</h3>
+	<p>95 oz = 2693.20 g, 95 ounce = 2693.20 gram, 95 ounces = 2693.20 grams</p>
+
+	<h3>Pound to Kilogram</h3>
+	<p>95 lb = 43.09 kg, 95 lbs = 43.09 kg, 95 pound = 43.09 kilogram, 95 pounds = 43.09 kilograms</p>
+
+	<h3>Stone to Kilogram</h3>
+	<p>95 st = 603.27 kg, 95 stone = 603.27 kilogram, 95 stones = 603.27 kilograms</p>
+
+	<h3>Fluid Ounce to Milliliter</h3>
+	<p>95 fl oz = 2809.48 ml, 95 fluid ounce = 2809.48 milliliter, 95 fluid ounces = 2809.48 milliliters</p>
+
+	<h3>Pint to Liter</h3>
+	<p>95 pt = 53.98 l, 95 pint = 53.98 liter, 95 pints = 53.98 liters</p>
+
+	<h3>Quart to Liter</h3>
+	<p>95 qt = 89.90 l, 95 quart = 89.90 liter, 95 quarts = 89.90 liters</p>
+
+	<h3>Gallon to Liter</h3>
+	<p>95 gal = 359.61 l, 95 gallon = 359.61 liter, 95 gallons = 359.61 liters</p>
+
+	<h3>Fahrenheit to Celsius</h3>
+	<p>95°F = 35°C, 95F = 35C, 95 F = 35 C, 95 °F = 35 °C</p>
+
+	<h3>MPH to KPH</h3>
+	<p>95 mph = 152.88 kph, 95 miles per hour = 152.88 kilometers per hour</p>
+</body>
+</html>
