@@ -5,7 +5,8 @@ var settings = {
 	"mass": true,
 	"volume": true,
 	"temperature": true,
-	"speed": true
+	"speed": true,
+	"decimalPlaces": 2
 }
 // Checkboxes
 var checkbox = {
@@ -16,12 +17,16 @@ var checkbox = {
 	"temperature": document.getElementById("temperature"),
 	"speed": document.getElementById("speed")
 }
-// Set the initial checkbox states and settings
+// Decimal places
+var decimalPlaces = document.getElementById("decimalplaces");
+
+// Set the initial checkbox states
 chrome.storage.sync.get('settings', function(response) {
-	for (var key in response.settings) {
+	for (var key in checkbox) {
 		settings[key] = response.settings[key];
 		checkbox[key].checked = response.settings[key];
 	}
+	decimalPlaces.value = response.settings["decimalPlaces"];
 });
 
 // When the checkboxes change, set the settings accordingly
@@ -93,4 +98,16 @@ checkbox["speed"].onchange = function() {
 		settings["speed"] = false;
 		chrome.storage.sync.set({'settings': settings}, function() {});
 	}
+};
+
+// Set the decimal places
+decimalPlaces.onkeyup = function() {
+	if (this.value > 20) {
+		this.value = 20;
+	}
+	if (this.value < 0) {
+		this.value = 0;
+	}
+	settings["decimalPlaces"] = this.value;
+	chrome.storage.sync.set({'settings': settings}, function() {});
 };

@@ -5,12 +5,13 @@ var settings = {
 	"mass": true,
 	"volume": true,
 	"temperature": true,
-	"speed": true
+	"speed": true,
+	"decimalPlaces": 2
 }
 
 // Initialize globally needed variables
-var decimalPlaces = 2;
 var regexps = {};
+var original;
 
 var imperialUnits = {
 	// Length
@@ -86,7 +87,6 @@ function handleText(text) {
 	for (var key in regexps) {
 		// Check if any of the units are in the text
 		var match = text.match(regexps[key]);
-
 		// If they are
 		if (match !== null) {
 			// Replace all occurences of them
@@ -111,7 +111,7 @@ function handleText(text) {
 						case "inch":
 							if (settings["length"]) {
 								result = match[k] * 2.54;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " cm ";
 							} else {
 								result = matchcopy.original;
@@ -120,7 +120,7 @@ function handleText(text) {
 						case "feet":
 							if (settings["length"]) {
 								result = match[k] * 30.48;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " cm ";
 							} else {
 								result = matchcopy.original;
@@ -129,7 +129,7 @@ function handleText(text) {
 						case "yard":
 							if (settings["length"]) {
 								result = match[k] * 0.9144;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + "m ";
 							} else {
 								result = matchcopy.original;
@@ -138,7 +138,7 @@ function handleText(text) {
 						case "mile":
 							if (settings["length"]) {
 								result = match[k] * 1.609344;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " km ";
 							} else {
 								result = matchcopy.original;
@@ -147,7 +147,7 @@ function handleText(text) {
 						case "ounce":
 							if (settings["mass"]) {
 								result = match[k] * 28.349523;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " g ";
 							} else {
 								result = matchcopy.original;
@@ -156,7 +156,7 @@ function handleText(text) {
 						case "pound":
 							if (settings["mass"]) {
 								result = match[k] * 0.45359237;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " kg ";
 							} else {
 								result = matchcopy.original;
@@ -165,7 +165,7 @@ function handleText(text) {
 						case "stone":
 							if (settings["mass"]) {
 								result = match[k] * 6.35029318;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " kg ";
 							} else {
 								result = matchcopy.original;
@@ -174,7 +174,7 @@ function handleText(text) {
 						case "fluidounce":
 							if (settings["volume"]) {
 								result = match[k] * 29.57270;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " ml ";
 							} else {
 								result = matchcopy.original;
@@ -183,7 +183,7 @@ function handleText(text) {
 						case "pint":
 							if (settings["volume"]){
 								result = match[k] * 0.473176473;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " l ";
 							} else {
 								result = matchcopy.original;
@@ -192,7 +192,7 @@ function handleText(text) {
 						case "quart":
 							if (settings["volume"]) {
 								result = match[k] * 1.13652297;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " l ";
 							} else {
 								result = matchcopy.original;
@@ -200,8 +200,8 @@ function handleText(text) {
 							break;
 						case "gallon":
 							if (settings["volume"]) {
-								result = match[k] * 4.54609188;
-								result = result.toFixed(decimalPlaces);
+								result = match[k] * 3.78541178;
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " l ";
 							} else {
 								result = matchcopy.original;
@@ -210,7 +210,7 @@ function handleText(text) {
 						case "fahrenheit":
 							if (settings["temperature"]) {
 								result = ((match[k] - 32) * (5/9));
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " °C ";
 							} else {
 								result = matchcopy.original;
@@ -219,7 +219,7 @@ function handleText(text) {
 						case "mph":
 							if (settings["speed"]) {
 								result = match[k] * 1.609344;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " kph ";
 							} else {
 								result = matchcopy.original;
@@ -227,12 +227,11 @@ function handleText(text) {
 							break;
 					}
 				} else {
-					console.log(key);
 					switch (key) {
 						case "millimeter":
 							if (settings["length"]) {
 								result = match[k] * 0.0393700787;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " in ";
 							} else {
 								result = matchcopy.original;
@@ -241,7 +240,7 @@ function handleText(text) {
 						case "centimeter":
 							if (settings["length"]) {
 								result = match[k] * 0.393700787;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " in ";
 							} else {
 								result = matchcopy.original;
@@ -250,7 +249,7 @@ function handleText(text) {
 						case "meter":
 							if (settings["length"]) {
 								result = match[k] * 1.0936133;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " yd ";
 							} else {
 								result = matchcopy.original;
@@ -259,7 +258,7 @@ function handleText(text) {
 						case "kilometer":
 							if (settings["length"]) {
 								result = match[k] * 0.62137119;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " mi ";
 							} else {
 								result = matchcopy.original;
@@ -268,7 +267,7 @@ function handleText(text) {
 						case "milligram":
 							if (settings["mass"]) {
 								result = match[k] * 0.0000352739619;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " oz ";
 							} else {
 								result = matchcopy.original;
@@ -277,7 +276,7 @@ function handleText(text) {
 						case "gram":
 							if (settings["mass"]) {
 								result = match[k] * 0.0022046226;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " lbs ";
 							} else {
 								result = matchcopy.original;
@@ -286,7 +285,7 @@ function handleText(text) {
 						case "kilogram":
 							if (settings["mass"]) {
 								result = match[k] * 2.2046226;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " lbs ";
 							} else {
 								result = matchcopy.original;
@@ -295,7 +294,7 @@ function handleText(text) {
 						case "milliliter":
 							if (settings["volume"]) {
 								result = match[k] * 0.03381497;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " fl oz ";
 							} else {
 								result = matchcopy.original;
@@ -304,7 +303,7 @@ function handleText(text) {
 						case "liter":
 							if (settings["volume"]) {
 								result = match[k] * 0.2641795;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " gal ";
 							} else {
 								result = matchcopy.original;
@@ -313,7 +312,7 @@ function handleText(text) {
 						case "celsius":
 							if (settings["temperature"]) {
 								result = (match[k] * (9/5)) + 32;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " °F ";
 							} else {
 								result = matchcopy.original;
@@ -322,7 +321,7 @@ function handleText(text) {
 						case "kph":1.609344
 							if (settings["speed"]) {
 								result = match[k] / 1.609344;
-								result = result.toFixed(decimalPlaces);
+								result = result.toFixed(settings["decimalPlaces"].valueOf());
 								result = " " + result + " mph ";
 							} else {
 								result = matchcopy.original;
@@ -373,20 +372,17 @@ function getSettings() {
 		for (var key in response.settings) {
 			settings[key] = response.settings[key];
 		}
-		if (settings["metric"]) {
-			// Create RegExps for the imperial units
-			for (var key in imperialUnits) {
-				var madeRegex = createRegex(imperialUnits[key]);
-				var currRegex = new RegExp(madeRegex, "gi");
-				regexps[key] = currRegex;
-			}
-		} else {
-			// Create RegExps for the metric units
-			for (var key in metricUnits) {
-				var madeRegex = createRegex(metricUnits[key]);
-				var currRegex = new RegExp(madeRegex, "gi");
-				regexps[key] = currRegex;
-			}
+		// Create RegExps for the imperial units
+		for (var key in imperialUnits) {
+			var madeRegex = createRegex(imperialUnits[key]);
+			var currRegex = new RegExp(madeRegex, "gi");
+			regexps[key] = currRegex;
+		}
+		// Create RegExps for the metric units
+		for (var key in metricUnits) {
+			var madeRegex = createRegex(metricUnits[key]);
+			var currRegex = new RegExp(madeRegex, "gi");
+			regexps[key] = currRegex;
 		}
 		parse(document.body);
 	});
