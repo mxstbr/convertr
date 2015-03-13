@@ -32,6 +32,10 @@
         right: 0;
       }
 
+      .button--advanced:hover {
+        cursor: pointer;
+      }
+
       #advanced:checked ~ .button--advanced {
         background-color: #eeeeee;
       }
@@ -65,7 +69,6 @@
 
     <div class="tab tab--beginner">
       <label><input type="checkbox" id="systemCheckbox">Imperial to metric</input></label>
-      <label><input type="number" min="0" max="99" id="decimalplaces"></input>Decimal places</label>
     </div>
 
     <div class="tab tab--advanced">
@@ -74,6 +77,7 @@
       <label class="setting"><input type="checkbox" id="volume">Volume</input></label>
       <label class="setting"><input type="checkbox" id="temperature">Temperature</input></label>
       <label class="setting"><input type="checkbox" id="speed">Speed</input></label>
+      <label class="setting"><input type="number" min="0" max="99" id="decimalplaces"></input>Decimal places (this setting requires a page refresh)</label>
     </div>
 
     <script src="toggle.js"></script>
