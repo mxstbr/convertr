@@ -251,6 +251,8 @@ function handleText(text) {
 								result = match[k] * 0.0393700787;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " in ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 						case "centimeter":
@@ -258,6 +260,8 @@ function handleText(text) {
 								result = match[k] * 0.393700787;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " in ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 						case "meter":
@@ -265,6 +269,8 @@ function handleText(text) {
 								result = match[k] * 1.0936133;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " yd ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 						case "kilometer":
@@ -272,6 +278,8 @@ function handleText(text) {
 								result = match[k] * 0.62137119;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " mi ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 						case "milligram":
@@ -279,6 +287,8 @@ function handleText(text) {
 								result = match[k] * 0.0000352739619;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " oz ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 						case "gram":
@@ -286,6 +296,8 @@ function handleText(text) {
 								result = match[k] * 0.0022046226;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " lbs ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 						case "kilogram":
@@ -293,6 +305,8 @@ function handleText(text) {
 								result = match[k] * 2.2046226;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " lbs ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 						case "milliliter":
@@ -300,6 +314,8 @@ function handleText(text) {
 								result = match[k] * 0.03381497;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " fl oz ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 						case "liter":
@@ -307,6 +323,8 @@ function handleText(text) {
 								result = match[k] * 0.2641795;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " gal ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 						case "celsius":
@@ -314,6 +332,8 @@ function handleText(text) {
 								result = (match[k] * (9/5)) + 32;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " °F ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 						case "kph":1.609344
@@ -321,6 +341,8 @@ function handleText(text) {
 								result = match[k] / 1.609344;
 								result = result.toFixed(decimalPlaces);
 								result = " " + result + " mph ";
+							} else {
+								result = matchcopy.original;
 							}
 							break;
 					}
