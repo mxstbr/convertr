@@ -52,24 +52,6 @@ var metricUnits = {
 	"kph"		: ["kph", "kp/h", "kilometers per hour", "kilometers/hour"]
 }
 
-
-// Generate regular expressions
-if (settings["metric"]) {
-	// Create RegExps for the imperial units
-	for (var key in imperialUnits) {
-		var madeRegex = createRegex(imperialUnits[key]);
-		var currRegex = new RegExp(madeRegex, "gi");
-		regexps[key] = currRegex;
-	}
-} else {
-	// Create RegExps for the metric units
-	for (var key in metricUnits) {
-		var madeRegex = createRegex(metricUnits[key]);
-		var currRegex = new RegExp(madeRegex, "gi");
-		regexps[key] = currRegex;
-	}
-}
-
 // Get the settings on load
 window.onload = getSettings();
 
@@ -245,6 +227,7 @@ function handleText(text) {
 							break;
 					}
 				} else {
+					console.log(key);
 					switch (key) {
 						case "millimeter":
 							if (settings["length"]) {
@@ -389,6 +372,21 @@ function getSettings() {
 	chrome.storage.sync.get('settings', function(response) {
 		for (var key in response.settings) {
 			settings[key] = response.settings[key];
+		}
+		if (settings["metric"]) {
+			// Create RegExps for the imperial units
+			for (var key in imperialUnits) {
+				var madeRegex = createRegex(imperialUnits[key]);
+				var currRegex = new RegExp(madeRegex, "gi");
+				regexps[key] = currRegex;
+			}
+		} else {
+			// Create RegExps for the metric units
+			for (var key in metricUnits) {
+				var madeRegex = createRegex(metricUnits[key]);
+				var currRegex = new RegExp(madeRegex, "gi");
+				regexps[key] = currRegex;
+			}
 		}
 		parse(document.body);
 	});
