@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Conversion",
-	"version": "0.5.1",
+	"version": "0.5.2",
 	"description": "Converts units on webpages automatically",
 	"author": "Max Stoiber",
 	"homepage_url": "http://mstoiber.com",
