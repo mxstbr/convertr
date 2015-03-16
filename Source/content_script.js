@@ -15,7 +15,7 @@ var original;
 
 var imperialUnits = {
 	// Length
-	"inch"		: ["in", "inch", "inches"],
+	"inch"		: ["in\\.", "inch", "inches"],
 	"feet"		: ["ft", "feet", "foot"],
 	"yard"		: ["yd", "yard", "yards"],
 	"mile"		: ["mi", "mile", "miles"],
@@ -308,7 +308,7 @@ function createRegex(vals) {
 	}
 	// Remove last |
 	units = units.slice(0, -1);
-	var regex = "(\\b([\\d]?[\\s,.]?[\\d])+\\s?(" + units + ")+)\\b";
+	var regex = "((?i)([\\d]?[\\s,.]?[\\d]?)+\\s?(" + units + ")+)(?!\\S)";
 	return regex;
 }
 
