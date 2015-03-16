@@ -139,7 +139,7 @@ function handleText(text) {
 						case "yard":
 							result = match[k] * 0.9144;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + "m ";
+							result = " " + result + " m ";
 							break;
 						case "mile":
 							result = match[k] * 1.609344;
@@ -152,12 +152,12 @@ function handleText(text) {
 						case "millimeter":
 							result = match[k] * 0.0393700787;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " in ";
+							result = " " + result + " in. ";
 							break;
 						case "centimeter":
 							result = match[k] * 0.393700787;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " in ";
+							result = " " + result + " in. ";
 							break;
 						case "meter":
 							result = match[k] * 1.0936133;
@@ -308,7 +308,7 @@ function createRegex(vals) {
 	}
 	// Remove last |
 	units = units.slice(0, -1);
-	var regex = "((?i)([\\d]?[\\s,.]?[\\d]?)+\\s?(" + units + ")+)(?!\\S)";
+	var regex = "(([\\d]+[\\s,.]?[\\d]*)+\\s?(" + units + ")+)(?!\\w)";
 	return regex;
 }
 
@@ -319,7 +319,7 @@ function createRegex(vals) {
  */
 function stripDigits(text) {
 	// Regular expression to get the digits
-	var numbers = /([\d]?[\s,.]?[\d])+/g;
+	var numbers = /([\d]+[\s,.]?[\d]*)+/g;
 	// Match the reges
 	var amount = text.match(numbers);
 	// Amount = array, amount[0] = number
