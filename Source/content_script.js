@@ -53,6 +53,10 @@ var metricUnits = {
 	"kph"		: ["kph", "kp/h", "kilometers per hour", "kilometers/hour"]
 }
 
+// The elements on the page the extension looks through
+// WARINING: Changing this might break certain, big sites like google.com and facebook.com
+var elements = ["a", "blockquote", "div", "em", "s", "strong", "u", "td", "th", "dd", "label", "p", "li", "span", "h1", "h2", "h3", "h4", "h5", "h6"];
+
 // Get the settings on load
 window.onload = getSettings();
 
@@ -62,17 +66,28 @@ window.onload = getSettings();
 //
 //
 
-// Parse the DOM
+/**
+ * Parses an element of the DOM
+ * @param element An element of the DOM
+ */
 function parse(element) {
- 	var elements = document.getElementsByTagName("p");
-    for(var i = 0; i < elements.length; i++) {
-        if(elements[i].childNodes[0].nodeType == 3) {
-            handleNode(elements[i].childNodes[0]);
-        }
-    }
+	for (var j = 0; j < elements.length; j++) {
+		var nodes = element.getElementsByTagName(elements[j]);
+
+	    for(var i = 0; i < nodes.length; i++) {
+	    	if (nodes[i].childNodes[0] !== undefined) {
+		        if(nodes[i].childNodes[0].nodeType === 3) {
+		            handleNode(nodes[i].childNodes[0]);
+		        }
+		    }
+	    }
+	}
 }
 
-// Called when a text node is found
+/**
+ * Handles the finding of a DOM node with a nodeType of 3
+ * @param textNode A DOM text node
+ */
 function handleNode(textNode) {
 	var text = textNode.nodeValue;
 	var newText;
@@ -82,7 +97,10 @@ function handleNode(textNode) {
 	textNode.nodeValue = newText;
 }
 
-// Called when a text node is found
+/**
+ * Finds and converts all the units found in the text of a textNode
+ * @param text The text of a textNode
+ */
 function handleText(text) {
 	for (var key in regexps) {
 		// Check if any of the units are in the text
@@ -278,8 +296,11 @@ function handleText(text) {
 	return text;
 }
 
-// Creates a regex for the specified array of units
-// E.g. createRegex(["mg", "milligram", ",milligrams"]) = "\b([\d]+[ ,.]?[\d]*) ?((mg)?(milligram)?(milligrams)?)*\b"
+/**
+ * Creates a regex for the specified units
+ * @param {array} vals An array of units to be converted, e.g. ["mg", "milligram", ",milligrams"]
+ * @returns {regexp} a regex for the specified units
+ */
 function createRegex(vals) {
 	var units = "";
 	for (var i in vals) {
@@ -291,7 +312,11 @@ function createRegex(vals) {
 	return regex;
 }
 
-// Strip the digits
+/**
+ * Strips the digits from a String
+ * @param {string} text
+ * @returns {number} the digits from the string
+ */
 function stripDigits(text) {
 	// Regular expression to get the digits
 	var numbers = /([\d]?[\s,.]?[\d])+/g;
@@ -302,12 +327,18 @@ function stripDigits(text) {
 	return amount;
 }
 
-// Check if a string contains another string
+/**
+ * Checks if a string contains another string
+ * @param {string} it the string to be found in the passed string
+ * @returns {boolean}
+ */
 String.prototype.contains = function(it) {
 	return this.indexOf(it) !== -1;
 };
 
-// Get the current settings
+/**
+ * Gets the current settings with the Chrome Storage API
+ */
 function getSettings() {
 	chrome.storage.sync.get('settings', function(response) {
 		for (var key in response.settings) {
@@ -329,7 +360,9 @@ function getSettings() {
 	});
 }
 
-// Add onchange event listener to storage
+/**
+ * Adds onchange listener to the Chrome Storage
+ */
 chrome.storage.onChanged.addListener(function(changes, namespace) {
 	getSettings();
 });
