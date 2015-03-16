@@ -68,7 +68,7 @@ window.onload = getSettings();
 
 /**
  * Parses an element of the DOM
- * @param element An element of the DOM
+ * @param {element} An element of the DOM
  */
 function parse(element) {
 	for (var j = 0; j < elements.length; j++) {
@@ -101,7 +101,7 @@ function handleNode(textNode) {
 
 /**
  * Finds and converts all the units found in the text of a textNode
- * @param text The text of a textNode
+ * @param {string} The text of a textNode
  */
 function handleText(text) {
 	for (var key in regexps) {
@@ -358,7 +358,6 @@ function getSettings() {
 			var currRegex = new RegExp(madeRegex, "gi");
 			regexps[key] = currRegex;
 		}
-		console.log(regexps["centimeter"]);
 		parse(document.body);
 	});
 }
