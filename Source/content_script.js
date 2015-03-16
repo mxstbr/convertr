@@ -53,10 +53,6 @@ var metricUnits = {
 	"kph"		: ["kph", "kp/h", "kilometers per hour", "kilometers/hour"]
 }
 
-// The elements on the page the extension looks through
-// WARINING: Changing this might break certain, big sites like google.com and facebook.com
-var elements = ["a", "blockquote", "div", "em", "s", "strong", "u", "td", "th", "dd", "label", "p", "li", "span", "h1", "h2", "h3", "h4", "h5", "h6"];
-
 // Get the settings on load
 window.onload = getSettings();
 
@@ -71,18 +67,12 @@ window.onload = getSettings();
  * @param {element} An element of the DOM
  */
 function parse(element) {
-	for (var j = 0; j < elements.length; j++) {
-		var nodes = element.getElementsByTagName(elements[j]);
-
-	    for(var i = 0; i < nodes.length; i++) {
-	    	for (var k = 0; k < nodes[i].childNodes.length; k++) {
-		    	if (nodes[i].childNodes[k] !== undefined) {
-			        if(nodes[i].childNodes[k].nodeType === 3) {
-			            handleNode(nodes[i].childNodes[k]);
-			        }
-			    }
-			}
-	    }
+	var n;
+	walk = document.createTreeWalker(element,NodeFilter.SHOW_TEXT,null,false);
+	while (n = walk.nextNode()) {
+		if (n.parentElement.tagName !== 'SCRIPT') {
+			handleNode(n)
+		}
 	}
 }
 
