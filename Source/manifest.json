@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Convertr",
-	"version": "0.6.1",
+	"version": "0.6.2",
 	"description": "Converts all the units to your measuring system of choice automatically.",
 	"author": "Max Stoiber",
 	"homepage_url": "http://mstoiber.com",
