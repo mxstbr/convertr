@@ -8,9 +8,9 @@ It works the other way around as well; if you are from the US and used to the im
 
 ## Installation instructions
 
-These instructions assume you have [Google Chrome](https://www.google.com/chrome/) installed and are using it right now. If not, please head to the Google Chrome page and follow the instructions there.
+These instructions assume you have Google Chrome installed and are using it right now. If not, please head to the [Google Chrome page](https://www.google.com/chrome/) and follow the instructions there.
 
-1) Go to the `Releases` of this GitHub repo (or [click here](https://github.com/mstoiber/conversion-extension/releases/latest)).
+1) Go to the `Releases` of the GitHub repo ([click here](https://github.com/mstoiber/conversion-extension/releases/latest)).
 
 2) Download the `Source.crx` file of the latest release.
 
