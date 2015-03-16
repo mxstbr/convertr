@@ -1,10 +1,10 @@
 # Conversion extension
 
-When you open a webpage, this extension scans the page and converts all the units to your measuring system of choice. For example, let's say you are from mainland europe and used to the metric system.
+When you open a webpage, this extension scans the page and converts all the units to your measuring system of choice. For example, let's say you are from mainland Europe and used to the metric system.
 
-You might come across a recipe that uses fluid ounces and pounds online, but instead of searching Google for the conversion of all these units, this extension takes care of them for you automatically. Without even noticing it, all the units on the page are in milliliters and grams.
+You might come across a recipe that uses fluid ounces and pounds online, but instead of searching Google for the conversion of all these units, this extension takes care of them for you automatically. Without even noticing it, all the units on the page are in millilitres and grams.
 
-It works the other way around as well, if you are from the US and used to the imperial system, it will convert all the metric units to imperial ones.
+It works the other way around as well; if you are from the US and used to the imperial system, it will convert all the metric units to imperial ones.
 
 ## Installation instructions
 
