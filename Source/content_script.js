@@ -75,11 +75,13 @@ function parse(element) {
 		var nodes = element.getElementsByTagName(elements[j]);
 
 	    for(var i = 0; i < nodes.length; i++) {
-	    	if (nodes[i].childNodes[0] !== undefined) {
-		        if(nodes[i].childNodes[0].nodeType === 3) {
-		            handleNode(nodes[i].childNodes[0]);
-		        }
-		    }
+	    	for (var k = 0; k < nodes[i].childNodes.length; k++) {
+		    	if (nodes[i].childNodes[k] !== undefined) {
+			        if(nodes[i].childNodes[k].nodeType === 3) {
+			            handleNode(nodes[i].childNodes[k]);
+			        }
+			    }
+			}
 	    }
 	}
 }
@@ -356,6 +358,7 @@ function getSettings() {
 			var currRegex = new RegExp(madeRegex, "gi");
 			regexps[key] = currRegex;
 		}
+		console.log(regexps["centimeter"]);
 		parse(document.body);
 	});
 }
