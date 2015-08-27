@@ -71,7 +71,7 @@ function parse(element) {
 	walk = document.createTreeWalker(element,NodeFilter.SHOW_TEXT,null,false);
 	while (n = walk.nextNode()) {
 		if (n.parentElement.tagName !== 'SCRIPT' && n.parentElement.tagName !== 'STYLE') {
-			handleNode(n)
+			handleNode(n);
 		}
 	}
 }
