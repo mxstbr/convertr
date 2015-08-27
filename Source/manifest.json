@@ -5,6 +5,12 @@
 	"description": "Converts all the units to your measuring system of choice automatically.",
 	"author": "Max Stoiber",
 	"homepage_url": "http://mstoiber.com",
+	"icons": {
+		"19": "icon-globe.png",
+		"32": "icon-globe32.png",
+		"48": "icon-globe48.png",
+		"128": "icon-globe128.png"
+	},
 	"content_scripts":
 	[
 		{
