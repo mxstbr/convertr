@@ -50,7 +50,7 @@ var metricUnits = {
 	// Temperature
 	"celsius"	: ["C", "° C", "°C", "degrees C", "degrees Celsius", "Celsius"],
 	// Speed
-	"kph"		: ["kph", "kp/h", "kilometers per hour", "kilometers/hour"]
+	"kph"		: ["kph", "kp/h", "kilometers per hour", "kilometers/hour", "km/h", "kmh", "kmph"]
 }
 
 // Get the settings on load
