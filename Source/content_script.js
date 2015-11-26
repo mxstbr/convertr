@@ -309,7 +309,7 @@ function createRegex(vals) {
 	}
 	// Remove last |
 	units = units.slice(0, -1);
-	var regex = "(((\\b|\\s|^)+[\\d]+[\\s,.]?[\\d]*)+\\s?(" + units + ")+)(?!\\w)";
+	var regex = "(((\\b|\\s|^)+[\\d]+[\\s,.-]?[\\d]*)+\\s?(" + units + ")+)(?!\\w)";
 	return regex;
 }
 
