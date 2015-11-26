@@ -69,11 +69,13 @@ window.onload = getSettings();
 function parse(element) {
 	var n;
 	walk = document.createTreeWalker(element,NodeFilter.SHOW_TEXT,null,false);
-	while (n = walk.nextNode()) {
-		if (n.parentElement.tagName !== 'SCRIPT' && n.parentElement.tagName !== 'STYLE') {
-			handleNode(n);
+	console.time("Convertr");
+	while (walk.nextNode()) {
+		if (walk.currentNode.parentElement.tagName !== 'SCRIPT' && walk.currentNode.parentElement.tagName !== 'STYLE') {
+			handleNode(walk.currentNode);
 		}
 	}
+	console.timeEnd("Convertr");
 }
 
 /**
@@ -82,11 +84,29 @@ function parse(element) {
  */
 function handleNode(textNode) {
 	var text = textNode.nodeValue;
-	var newText;
+	if (onlyContainsWhitespace(text) === false) {
+		var newText;
+		newText = handleText(text);
+		textNode.nodeValue = newText;
+	}
+}
 
-	newText = handleText(text);
-
-	textNode.nodeValue = newText;
+/**
+ * Checks if a string only contains whitespace, i.e. is empty
+ * @param {string} str The string to check for whitespace
+ */
+function onlyContainsWhitespace(str) {
+	for (var i = 0; i < str.length; i++) {
+    var currentChar = str.charCodeAt(i);
+    switch (currentChar) {
+        case 0x0009: case 0x000A: case 0x000B: case 0x000C: case 0x000D: case 0x0020:
+        case 0x0085: case 0x00A0: case 0x1680: case 0x180E: case 0x2000: case 0x2001:
+        case 0x2002: case 0x2003: case 0x2004: case 0x2005: case 0x2006: case 0x2007:
+        case 0x2008: case 0x2009: case 0x200A: case 0x2028: case 0x2029: case 0x202F:
+        case 0x205F: case 0x3000: continue;
+    }
+    return false;
+	}
 }
 
 /**
@@ -290,8 +310,8 @@ function handleText(text) {
 
 /**
  * Creates a regex for the specified units
- * @param {array} vals An array of units to be converted, e.g. ["mg", "milligram", ",milligrams"]
- * @returns {regexp} a regex for the specified units
+ * @param {Array} vals An array of units to be converted, e.g. ["mg", "milligram", ",milligrams"]
+ * @returns {String} a regex for the specified units
  */
 function createRegex(vals) {
 	var units = "";
@@ -300,7 +320,7 @@ function createRegex(vals) {
 	}
 	// Remove last |
 	units = units.slice(0, -1);
-	var regex = "(([\\d]+[\\s,.]?[\\d]*)+\\s?(" + units + ")+)(?!\\w)";
+	var regex = "(((\\b|\\s|^)+[\\d]+[\\s,.]?[\\d]*)+\\s?(" + units + ")+)(?!\\w)";
 	return regex;
 }
 
