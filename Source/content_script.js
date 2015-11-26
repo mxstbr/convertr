@@ -71,7 +71,7 @@ function parse(element) {
 	walk = document.createTreeWalker(element,NodeFilter.SHOW_TEXT,null,false);
 	console.time("Convertr");
 	while (walk.nextNode()) {
-		// Check that we don't parse weird tags which probably don't have visible/parseable text
+		// Check that we don't parse tags which highly likely don't have visible/parseable text
 		if (walk.currentNode.parentElement.tagName !== 'SCRIPT'
 		 && walk.currentNode.parentElement.tagName !== 'STYLE'
 		 && walk.currentNode.parentElement.tagName !== 'CANVAS'
