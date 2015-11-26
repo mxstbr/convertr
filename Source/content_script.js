@@ -79,7 +79,9 @@ function parse(element) {
 		 && walk.currentNode.parentElement.tagName !== 'META'
 		 && walk.currentNode.parentElement.tagName !== 'NOSCRIPT'
 		 && walk.currentNode.parentElement.tagName !== 'VIDEO') {
-			handleNode(walk.currentNode);
+			 var currentNode = walk.currentNode;
+			 walk.nextSibling();
+			 handleNode(currentNode);
 		}
 	}
 	console.timeEnd("Convertr");
@@ -93,8 +95,10 @@ function handleNode(textNode) {
 	var text = textNode.nodeValue;
 	if (onlyContainsWhitespace(text) === false) {
 		var newText;
+		var parent = textNode.parentElement;
 		newText = handleText(text);
-		textNode.nodeValue = newText;
+		parent.removeChild(textNode);
+		parent.innerHTML = newText;
 	}
 }
 
@@ -107,7 +111,7 @@ function handleText(text) {
 		// Check if any of the units are in the text
 		var match = text.match(regexps[key]);
 		// If they are
-		if (match !== null) {
+		if (match !== null && onlyContainsWhitespace(match) === false && match !== undefined) {
 			// Replace all occurences of them
 			for (var k = 0; k < match.length; k++) {
 				var result;
@@ -130,22 +134,22 @@ function handleText(text) {
 						case "inch":
 							result = match[k] * 2.54;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " cm ";
+							result = " " + result + "cm ";
 							break;
 						case "feet":
 							result = match[k] * 30.48;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " cm ";
+							result = " " + result + "cm ";
 							break;
 						case "yard":
 							result = match[k] * 0.9144;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " m ";
+							result = " " + result + "m ";
 							break;
 						case "mile":
 							result = match[k] * 1.609344;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " km ";
+							result = " " + result + "km ";
 							break;
 					}
 				} else {
@@ -153,22 +157,22 @@ function handleText(text) {
 						case "millimeter":
 							result = match[k] * 0.0393700787;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " in. ";
+							result = " " + result + "in. ";
 							break;
 						case "centimeter":
 							result = match[k] * 0.393700787;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " in. ";
+							result = " " + result + "in. ";
 							break;
 						case "meter":
 							result = match[k] * 1.0936133;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " yd ";
+							result = " " + result + "yd ";
 							break;
 						case "kilometer":
 							result = match[k] * 0.62137119;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " mi ";
+							result = " " + result + "mi ";
 							break;
 					}
 				}
@@ -178,17 +182,17 @@ function handleText(text) {
 						case "ounce":
 							result = match[k] * 28.349523;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " g ";
+							result = " " + result + "g ";
 							break;
 						case "pound":
 							result = match[k] * 0.45359237;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " kg ";
+							result = " " + result + "kg ";
 							break;
 						case "stone":
 							result = match[k] * 6.35029318;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " kg ";
+							result = " " + result + "kg ";
 							break;
 					}
 				} else {
@@ -196,17 +200,17 @@ function handleText(text) {
 						case "milligram":
 							result = match[k] * 0.0000352739619;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " oz ";
+							result = " " + result + "oz ";
 							break;
 						case "gram":
 							result = match[k] * 0.0022046226;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " lbs ";
+							result = " " + result + "lbs ";
 							break;
 						case "kilogram":
 							result = match[k] * 2.2046226;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " lbs ";
+							result = " " + result + "lbs ";
 							break;
 					}
 				}
@@ -216,22 +220,22 @@ function handleText(text) {
 						case "fluidounce":
 							result = match[k] * 29.57270;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " ml ";
+							result = " " + result + "ml ";
 							break;
 						case "pint":
 							result = match[k] * 0.473176473;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " l ";
+							result = " " + result + "l ";
 							break;
 						case "quart":
 							result = match[k] * 1.13652297;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " l ";
+							result = " " + result + "l ";
 							break;
 						case "gallon":
 							result = match[k] * 3.78541178;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " l ";
+							result = " " + result + "l ";
 							break;
 					}
 				} else {
@@ -239,12 +243,12 @@ function handleText(text) {
 						case "milliliter":
 							result = match[k] * 0.03381497;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " fl oz ";
+							result = " " + result + "fl oz ";
 							break;
 						case "liter":
 							result = match[k] * 0.2641795;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " gal ";
+							result = " " + result + "gal ";
 							break;
 					}
 				}
@@ -254,7 +258,7 @@ function handleText(text) {
 						case "fahrenheit":
 							result = ((match[k] - 32) * (5/9));
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " °C ";
+							result = " " + result + "°C ";
 							break;
 					}
 				} else {
@@ -262,7 +266,7 @@ function handleText(text) {
 						case "celsius":
 							result = (match[k] * (9/5)) + 32;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " °F ";
+							result = " " + result + "°F ";
 							break;
 					}
 				}
@@ -272,7 +276,7 @@ function handleText(text) {
 						case "mph":
 							result = match[k] * 1.609344;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " kph ";
+							result = " " + result + "kph ";
 							break;
 					}
 				} else {
@@ -280,16 +284,16 @@ function handleText(text) {
 						case "kph":
 							result = match[k] / 1.609344;
 							result = result.toFixed(settings["decimalPlaces"].valueOf());
-							result = " " + result + " mph ";
+							result = " " + result + "mph ";
 							break;
 					}
 				}
 
-				if (result === undefined) {
-					result = matchcopy.original;
+				if (result !== undefined) {
+					result = "<span>" + result + "</span>";
+					text = text.replace(matchcopy.original, result);
+					// console.log(result, text);
 				}
-
-				text = text.replace(matchcopy.original, result);
 			}
 		}
 		match = null;
@@ -318,6 +322,14 @@ function createRegex(vals) {
  * @param {string} str The string to check for whitespace
  */
 function onlyContainsWhitespace(str) {
+	if (Array.isArray(str)) {
+		for (var i = 0; i < str.length; i++) {
+			if (onlyContainsWhitespace(str[i]) === true) {
+				return true;
+			}
+		}
+		return false;
+	}
 	for (var i = 0; i < str.length; i++) {
     var currentChar = str.charCodeAt(i);
     switch (currentChar) {
