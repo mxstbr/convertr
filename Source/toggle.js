@@ -22,9 +22,11 @@ var decimalPlaces = document.getElementById("decimalplaces");
 
 // Set the initial checkbox states
 chrome.storage.sync.get('settings', function(response) {
-	for (var key in checkbox) {
+	for (var key in response.settings) {
 		settings[key] = response.settings[key];
-		checkbox[key].checked = response.settings[key];
+		if (key !== "decimalPlaces") {
+			checkbox[key].checked = response.settings[key];
+		}
 	}
 	decimalPlaces.value = response.settings["decimalPlaces"];
 });
