@@ -84,6 +84,16 @@ function parse(element) {
 			 handleNode(currentNode);
 		}
 	}
+	var style = document.createElement('style');
+	var head = document.head || document.getElementByTagName('head')[0];
+	var css = ".convertr-replaced-span-thisisauniquehashorsomething { display: inline-block; background-color: #FF0000; background-color: rgba(255, 0, 0, 0.1); }";
+	style.type = "text/css";
+	if (style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		style.appendChild(document.createTextNode(css));
+	}
+	head.appendChild(style);
 	console.timeEnd("Convertr");
 }
 
@@ -290,9 +300,10 @@ function handleText(text) {
 				}
 
 				if (result !== undefined) {
-					result = "<span>" + result + "</span>";
-					text = text.replace(matchcopy.original, result);
-					// console.log(result, text);
+					var wrappedResult = "<span class='convertr-replaced-span-thisisauniquehashorsomething' title='" + matchcopy.original + "'>" + result + "</span>";
+					// Avoid nesting 1000s of spans
+					text = text.replace(wrappedResult, result);
+					text = text.replace(matchcopy.original, wrappedResult);
 				}
 			}
 		}
