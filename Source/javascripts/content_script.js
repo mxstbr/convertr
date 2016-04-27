@@ -33,7 +33,10 @@ assign(regexps, createRegexps(metricUnitsWithoutCategories));
 
 // Parse on load
 window.onload = () => {
-	run();
+	chrome.storage.sync.get('settings', (data) => {
+		settings = data.settings;
+		run();
+	});
 };
 
 // Reparse with new settings when they change
@@ -86,15 +89,16 @@ function parseText(text) {
 					match[k] = match[k].replace(/,/g, '.');
 
 					const isMetric = Object.keys(metricUnitsWithoutCategories).indexOf(key) !== -1;
+
 					const converter = isMetric ? convertToImperial : convertToMetric;
+					const unitsToUse = isMetric ? metricUnits : imperialUnits;
 
-					result = converter(match[k], key);
+					const category = Object.keys(unitsToUse).filter(c => Object.keys(unitsToUse[c]).indexOf(key) !== -1)[0];
 
-					if (result === undefined) {
-						result = matchcopy.original;
+					if (settings[category] === true) {
+						result = converter(match[k], key);
+						newText = newText.replace(matchcopy.original, result);
 					}
-
-					newText = newText.replace(matchcopy.original, result);
 				}
 			}
 		}
