@@ -1,99 +1,42 @@
+// Constants
+const metricUnits = require('./constants/metricUnits');
+const imperialUnits = require('./constants/imperialUnits');
+
+// Utilities
+const createRegexps = require('./utils/createRegexps');
+const parseElement = require('./utils/parseElement');
+const stripDigits = require('./utils/stripDigits');
+const onlyContainsWhitespace = require('./utils/onlyContainsWhitespace');
+
 // Default settings
-const settings = {
-	metric: true,
-	length: true,
-	mass: true,
-	volume: true,
-	temperature: true,
-	speed: true,
-	decimalPlaces: 2,
-};
-
+const settings = require('./constants/defaultSettings');
 // Initialize globally needed variables
-const regexps = {};
-
-const imperialUnits = {
-	// Length
-	inch: ['in\\.', 'inch', 'inches'],
-	feet: ['ft', 'feet', 'foot'],
-	yard: ['yd', 'yard', 'yards'],
-	mile: ['mi', 'mile', 'miles'],
-	// Mass
-	ounce: ['oz', 'ozs', 'ounce', 'ounces'],
-	pound: ['lb', 'lbs', 'pound', 'pounds'],
-	stone: ['st', 'stone', 'stones'],
-	// Volume
-	fluidounce: ['fl oz', 'fl ozs', 'floz', 'flozs', 'fl oz', 'floz', 'fluid ounce', 'fluid ounces'],
-	pint: ['pt', 'pint', 'pints'],
-	quart: ['qt', 'quart', 'quarts'],
-	gallon: ['gal', 'gallon', 'gallons'],
-	// Temperature
-	fahrenheit: ['F', '° F', '°F', 'degrees F', 'degrees Fahrenheit', 'Fahrenheit'],
-	// Speed
-	mph: ['mph', 'mp/h', 'miles per hour', 'miles/hour'],
-};
-
-const metricUnits = {
-	// Length
-	millimeter: ['mm', 'millimeter', 'millimeters', 'milimeter', 'milimeters', 'millimetre', 'millimetres', 'milimetre', 'milimetres'],
-	centimeter: ['cm', 'centimeter', 'centimeters', 'centimetre', 'centimetres'],
-	meter: ['m', 'meter', 'meters', 'metre', 'metres'],
-	kilometer: ['km', 'kilometer', 'kilometers', 'kilometre', 'kilometres'],
-	// Mass
-	milligram: ['mg', 'milligram', 'milligrams', 'miligram', 'miligrams'],
-	gram: ['g', 'gram', 'grams'],
-	kilogram: ['kg', 'kilogram', 'kilograms'],
-	// Volume
-	milliliter: ['ml', 'milliliter', 'milliliters', 'mililiter', 'mililiters', 'millilitre', 'millilitres', 'mililitre', 'mililitres'],
-	liter: ['l', 'liter', 'liters', 'litre', 'litres'],
-	// Temperature
-	celsius: ['C', '° C', '°C', 'degrees C', 'degrees Celsius', 'Celsius'],
-	// Speed
-	kph: ['kph', 'kp/h', 'kilometers per hour', 'kilometers/hour', 'km/h', 'kmh', 'kmph'],
-};
+let regexps = {};
 
 // Get the settings on load
-window.onload = getSettings();
+window.onload = () => {
+	run(settings);
+};
 
-// --------------------------------
-//
-// Functions
-//
-//
-
-/**
- * Parses an element of the DOM
- * @param {element} An element of the DOM
- */
-function parse(element) {
-	const walk = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
-	console.time('Convertr');
-	while (walk.nextNode()) {
-		// Check that we don't parse tags which highly likely don't have visible/parseable text
-		if (walk.currentNode.parentElement.tagName !== 'SCRIPT'
-				&& walk.currentNode.parentElement.tagName !== 'STYLE'
-				&& walk.currentNode.parentElement.tagName !== 'CANVAS'
-				&& walk.currentNode.parentElement.tagName !== 'IMG'
-				&& walk.currentNode.parentElement.tagName !== 'META'
-				&& walk.currentNode.parentElement.tagName !== 'NOSCRIPT'
-				&& walk.currentNode.parentElement.tagName !== 'VIDEO') {
-			handleNode(walk.currentNode);
+// Get the settings when something changes in the storage
+chrome.storage.onChanged.addListener((changes) => {
+	for (const key in changes) {
+		if ({}.hasOwnProperty.call(changes, key)) {
+			settings[key] = changes[key];
 		}
 	}
-	console.timeEnd('Convertr');
-}
+	run(settings);
+});
 
-/**
- * Handles the finding of a DOM node with a nodeType of 3
- * @param textNode A DOM text node
- */
-function handleNode(textNode) {
-	const text = textNode.nodeValue;
-	if (onlyContainsWhitespace(text) === false) {
-		const newText = handleText(text);
-		// TODO Fix this stupid mutation
-		textNode.nodeValue = newText; // eslint-disable-line no-param-reassign
-	}
+function run() {
+	regexps = createRegexps(imperialUnits, metricUnits);
+	parseElement(document.body, (textNode) => {
+		const text = textNode.nodeValue;
+		if (onlyContainsWhitespace(text) === false) {
+			const newText = handleText(text);
+			textNode.nodeValue = newText; // eslint-disable-line no-param-reassign
+		}
+	});
 }
 
 /**
@@ -105,7 +48,7 @@ function handleText(text) {
 	for (const key in regexps) { // eslint-disable-line no-restricted-syntax
 		if ({}.hasOwnProperty.call(regexps, key)) {
 			// Check if any of the units are in the text
-			let match = text.match(regexps[key]);
+			const match = newText.match(regexps[key]);
 			// If they are
 			if (match !== null) {
 				// Replace all occurences of them
@@ -147,8 +90,6 @@ function handleText(text) {
 								result = result.toFixed(settings.decimalPlaces.valueOf());
 								result = ` ${result} km `;
 								break;
-							default:
-								break;
 						}
 					} else {
 						switch (key) {
@@ -172,8 +113,6 @@ function handleText(text) {
 								result = result.toFixed(settings.decimalPlaces.valueOf());
 								result = ` ${result} mi `;
 								break;
-							default:
-								break;
 						}
 					}
 
@@ -194,8 +133,6 @@ function handleText(text) {
 								result = result.toFixed(settings.decimalPlaces.valueOf());
 								result = ` ${result} kg `;
 								break;
-							default:
-								break;
 						}
 					} else {
 						switch (key) {
@@ -213,8 +150,6 @@ function handleText(text) {
 								result = match[k] * 2.2046226;
 								result = result.toFixed(settings.decimalPlaces.valueOf());
 								result = ` ${result} lbs `;
-								break;
-							default:
 								break;
 						}
 					}
@@ -241,8 +176,6 @@ function handleText(text) {
 								result = result.toFixed(settings.decimalPlaces.valueOf());
 								result = ` ${result} l `;
 								break;
-							default:
-								break;
 						}
 					} else {
 						switch (key) {
@@ -256,8 +189,6 @@ function handleText(text) {
 								result = result.toFixed(settings.decimalPlaces.valueOf());
 								result = ` ${result} gal `;
 								break;
-							default:
-								break;
 						}
 					}
 
@@ -268,8 +199,6 @@ function handleText(text) {
 								result = result.toFixed(settings.decimalPlaces.valueOf());
 								result = ` ${result} °C `;
 								break;
-							default:
-								break;
 						}
 					} else {
 						switch (key) {
@@ -277,8 +206,6 @@ function handleText(text) {
 								result = (match[k] * (9 / 5)) + 32;
 								result = result.toFixed(settings.decimalPlaces.valueOf());
 								result = ` ${result} °F `;
-								break;
-							default:
 								break;
 						}
 					}
@@ -290,8 +217,6 @@ function handleText(text) {
 								result = result.toFixed(settings.decimalPlaces.valueOf());
 								result = ` ${result} kph `;
 								break;
-							default:
-								break;
 						}
 					} else {
 						switch (key) {
@@ -300,8 +225,6 @@ function handleText(text) {
 								result = result.toFixed(settings.decimalPlaces.valueOf());
 								result = ` ${result} mph `;
 								break;
-							default:
-								break;
 						}
 					}
 
@@ -309,61 +232,12 @@ function handleText(text) {
 						result = matchcopy.original;
 					}
 
-					newText = text.replace(matchcopy.original, result);
+					newText = newText.replace(matchcopy.original, result);
 				}
 			}
-			match = null;
 		}
 	}
 	return newText;
-}
-
-/**
- * Creates a regex for the specified units
- * @param {Array} vals An array of units to be converted, e.g. ["mg", "milligram", ",milligrams"]
- * @returns {String} a regex for the specified units
- */
-function createRegex(vals) {
-	let units = '';
-	for (let i = 0; i < vals.length; i++) {
-		units += `${vals[i]}|`;
-	}
-	// Remove last |
-	units = units.slice(0, -1);
-	const regex = `(((\\b|\\s|^)+[\\d]+[\\s,.-]?[\\d]*)+\\s?(${units})+)(?!\\w)`;
-	return regex;
-}
-
-/**
- * Checks if a string only contains whitespace, i.e. is empty
- * @param {string} str The string to check for whitespace
- */
-function onlyContainsWhitespace(str) {
-	for (let i = 0; i < str.length; i++) {
-		const currentChar = str.charCodeAt(i);
-		switch (currentChar) { // eslint-disable-line default-case
-			case 0x0009: case 0x000A: case 0x000B: case 0x000C: case 0x000D: case 0x0020:
-			case 0x0085: case 0x00A0: case 0x1680: case 0x180E: case 0x2000: case 0x2001:
-			case 0x2002: case 0x2003: case 0x2004: case 0x2005: case 0x2006: case 0x2007:
-			case 0x2008: case 0x2009: case 0x200A: case 0x2028: case 0x2029: case 0x202F:
-			case 0x205F: case 0x3000: continue;
-		}
-		return false;
-	}
-	return true;
-}
-
-/**
- * Strips the digits from a String
- * @param {string} text
- * @returns {number} the digits from the string
- */
-function stripDigits(text) {
-	// Regular expression to get the digits
-	const numbers = /([\d]+[\s,.]?[\d]*)+/g;
-	// Match the regex
-	// Amount = array, amount[0] = number
-	return text.match(numbers)[0];
 }
 
 /**
@@ -371,43 +245,7 @@ function stripDigits(text) {
  * @param {string} it the string to be found in the passed string
  * @returns {boolean}
  */
+// TODO FIGURE OUT IF THIS IS STILL USED SOMEWHERE
 String.prototype.contains = function contains(it) { // eslint-disable-line no-extend-native
 	return this.indexOf(it) !== -1;
 };
-
-/**
- * Gets the current settings with the Chrome Storage API
- */
-function getSettings() {
-	chrome.storage.sync.get('settings', (response) => {
-		for (const key in response.settings) {
-			if ({}.hasOwnProperty.call(response.settings, key)) {
-				settings[key] = response.settings[key];
-			}
-		}
-		// Create RegExps for the imperial units
-		for (const key in imperialUnits) {
-			if ({}.hasOwnProperty.call(imperialUnits, key)) {
-				const madeRegex = createRegex(imperialUnits[key]);
-				const currRegex = new RegExp(madeRegex, 'gi');
-				regexps[key] = currRegex;
-			}
-		}
-		// Create RegExps for the metric units
-		for (const key in metricUnits) {
-			if ({}.hasOwnProperty.call(metricUnits, key)) {
-				const madeRegex = createRegex(metricUnits[key]);
-				const currRegex = new RegExp(madeRegex, 'gi');
-				regexps[key] = currRegex;
-			}
-		}
-		parse(document.body);
-	});
-}
-
-/**
- * Adds onchange listener to the Chrome Storage
- */
-chrome.storage.onChanged.addListener(() => {
-	getSettings();
-});
