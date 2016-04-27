@@ -9,17 +9,9 @@ body {
   user-select: none;
 }
 
-#advanced {
-  display: none;
-}
-
 .tab {
   margin-top: 3.5em;
   margin-bottom: 2em;
-}
-
-.tab--advanced {
-  display: none;
 }
 
 .button--advanced {
