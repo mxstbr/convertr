@@ -10,19 +10,16 @@ body {
 }
 
 .tab {
-  margin-top: 3.5em;
-  margin-bottom: 2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 .button--advanced {
   display: inline-block;
   padding: 0.5em;
   border: 1px solid #eeeeee;
-  margin-bottom: 1em;
+  margin: 5px auto;
   border-radius: 2px;
-  position:absolute;
-  top: 0;
-  right: 0;
 }
 
 .button--advanced:hover {
