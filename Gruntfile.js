@@ -105,7 +105,7 @@ module.exports = function(grunt) {
         },
         module: {
           loaders: [
-            { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader?presets[]=es2015" }
+            { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader?presets[]=es2015,presets[]=react" }
           ]
         },
         failOnError: true,
