@@ -9,24 +9,21 @@ const stripDigits = require('./utils/stripDigits');
 const isWhitespace = require('is-whitespace');
 
 // Default settings
-const settings = require('./constants/defaultSettings');
+let settings = require('./constants/defaultSettings');
 // Initialize globally needed variables
 let regexps = {};
 
 // Parse on load
 window.onload = () => {
-	run(settings);
+	run();
 };
 
 // Reparse with new settings when they change
 chrome.storage.onChanged.addListener((changes) => {
 	// Update settings with changes
-	for (const key in changes) {
-		if ({}.hasOwnProperty.call(changes, key)) {
-			settings[key] = changes[key];
-		}
-	}
-	run(settings);
+	// TODO Without mutation would be nicer...
+	settings = changes.settings.newValue;
+	run();
 });
 
 /*
@@ -246,13 +243,3 @@ function handleText(text) {
 	}
 	return newText;
 }
-
-/**
- * Checks if a string contains another string
- * @param {string} it the string to be found in the passed string
- * @returns {boolean}
- */
-// TODO FIGURE OUT IF THIS IS STILL USED SOMEWHERE
-String.prototype.contains = function contains(it) { // eslint-disable-line no-extend-native
-	return this.indexOf(it) !== -1;
-};
