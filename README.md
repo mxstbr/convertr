@@ -6,6 +6,14 @@ You might come across a recipe that uses fluid ounces and pounds online, but ins
 
 It works the other way around as well; if you are from the US and used to the imperial system, it will convert all the metric units to imperial ones.
 
+## Development instructions
+
+1) run `npm install`
+
+2) run `grunt --reload-extension`
+
+3) open chrome://extensions/ and load the `build` as unpacked extension
+
 ## Installation instructions
 
 These instructions assume you have Google Chrome installed and are using it right now. If not, please head to the [Google Chrome page](https://www.google.com/chrome/) and follow the instructions there.
