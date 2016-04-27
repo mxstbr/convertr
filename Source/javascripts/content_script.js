@@ -1,17 +1,21 @@
+const isWhitespace = require('is-whitespace');
+const assign = require('object-assign');
+
 // Constants
 const metricUnits = require('./constants/metricUnits');
 const imperialUnits = require('./constants/imperialUnits');
+// Default settings
+let settings = require('./constants/defaultSettings');
 
 // Utilities
 const createRegexps = require('./utils/createRegexps');
 const parseElement = require('./utils/parseElement');
 const stripDigits = require('./utils/stripDigits');
-const isWhitespace = require('is-whitespace');
 
-// Default settings
-let settings = require('./constants/defaultSettings');
-// Initialize globally needed variables
-let regexps = {};
+// Create the regular expressions to match units
+const regexps = {};
+assign(regexps, createRegexps(imperialUnits));
+assign(regexps, createRegexps(metricUnits));
 
 // Parse on load
 window.onload = () => {
@@ -30,14 +34,11 @@ chrome.storage.onChanged.addListener((changes) => {
  * Main function
  */
 function run() {
-	// Create the regular expressions
-	// TODO Figure out if we need to do this everytime
-	regexps = createRegexps(imperialUnits, metricUnits);
 	// Parse the body
 	parseElement(document.body, (textNode) => {
 		const text = textNode.nodeValue;
 		if (isWhitespace(text) === false) {
-			const newText = handleText(text);
+			const newText = parseText(text);
 			textNode.nodeValue = newText; // eslint-disable-line no-param-reassign
 		}
 	});
@@ -47,7 +48,7 @@ function run() {
  * Finds and converts all the units found in the text of a textNode
  * @param {string} The text of a textNode
  */
-function handleText(text) {
+function parseText(text) {
 	let newText = text;
 	for (const key in regexps) { // eslint-disable-line no-restricted-syntax
 		if ({}.hasOwnProperty.call(regexps, key)) {

@@ -1,19 +1,17 @@
 const createRegex = require('./createRegex');
 
-function createRegexps(imperialUnits, metricUnits) {
+/**
+ * Create regular expressions from a list of units
+ *
+ * @param  {object} units The list of units, structured like ../constants/*Units.js
+ *
+ * @return {object}       The generated regexps
+ */
+function createRegexps(units) {
   const regexps = {};
-  // Create RegExps for the imperial units
-  for (const key in imperialUnits) {
-    if ({}.hasOwnProperty.call(imperialUnits, key)) {
-      const madeRegex = createRegex(imperialUnits[key]);
-      const currRegex = new RegExp(madeRegex, 'gi');
-      regexps[key] = currRegex;
-    }
-  }
-  // Create RegExps for the metric units
-  for (const key in metricUnits) {
-    if ({}.hasOwnProperty.call(metricUnits, key)) {
-      const madeRegex = createRegex(metricUnits[key]);
+  for (const key in units) {
+    if ({}.hasOwnProperty.call(units, key)) {
+      const madeRegex = createRegex(units[key]);
       const currRegex = new RegExp(madeRegex, 'gi');
       regexps[key] = currRegex;
     }
