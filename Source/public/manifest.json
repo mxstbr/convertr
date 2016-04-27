@@ -6,10 +6,10 @@
 	"author": "Max Stoiber",
 	"homepage_url": "http://mstoiber.com",
 	"icons": {
-		"19": "icon-globe.png",
-		"32": "icon-globe32.png",
-		"48": "icon-globe48.png",
-		"128": "icon-globe128.png"
+		"19": "images/icon-globe.png",
+		"32": "images/icon-globe32.png",
+		"48": "images/icon-globe48.png",
+		"128": "images/icon-globe128.png"
 	},
 	"content_scripts":
 	[
@@ -20,7 +20,7 @@
 		}
 	],
 	"browser_action": {
-		"default_icon": "icon-globe.png",
+		"default_icon": "images/icon-globe.png",
 		"default_popup": "popup.html"
 	},
 	"permissions": [
