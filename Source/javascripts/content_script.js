@@ -6,7 +6,7 @@ const imperialUnits = require('./constants/imperialUnits');
 const createRegexps = require('./utils/createRegexps');
 const parseElement = require('./utils/parseElement');
 const stripDigits = require('./utils/stripDigits');
-const onlyContainsWhitespace = require('./utils/onlyContainsWhitespace');
+const isWhitespace = require('is-whitespace');
 
 // Default settings
 const settings = require('./constants/defaultSettings');
@@ -32,7 +32,7 @@ function run() {
 	regexps = createRegexps(imperialUnits, metricUnits);
 	parseElement(document.body, (textNode) => {
 		const text = textNode.nodeValue;
-		if (onlyContainsWhitespace(text) === false) {
+		if (isWhitespace(text) === false) {
 			const newText = handleText(text);
 			textNode.nodeValue = newText; // eslint-disable-line no-param-reassign
 		}

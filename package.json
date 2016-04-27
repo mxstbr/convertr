@@ -27,5 +27,8 @@
     "grunt-zip": "^0.17.1",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "is-whitespace": "^0.3.0"
   }
 }
