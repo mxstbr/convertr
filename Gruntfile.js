@@ -89,7 +89,7 @@ module.exports = function(grunt) {
     webpack: {
       someName: {
         entry: {
-          // app: "./Source/javascripts/app.js",
+          content_script: "./Source/javascripts/content_script.js",
         },
         output: {
           path: "<%= grunt.config.get('buildDir') %>/js",

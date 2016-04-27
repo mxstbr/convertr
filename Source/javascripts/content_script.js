@@ -68,7 +68,7 @@ window.onload = getSettings();
  */
 function parse(element) {
 	var n;
-	walk = document.createTreeWalker(element,NodeFilter.SHOW_TEXT,null,false);
+	const walk = document.createTreeWalker(element,NodeFilter.SHOW_TEXT,null,false);
 	console.time("Convertr");
 	while (walk.nextNode()) {
 		// Check that we don't parse tags which highly likely don't have visible/parseable text

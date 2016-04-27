@@ -15,7 +15,7 @@
 	[
 		{
 			"matches": ["*://*/*"],
-			"js": ["content_script.js"],
+			"js": ["js/content_script.js"],
 			"run_at": "document_end"
 		}
 	],
@@ -27,4 +27,3 @@
 		"storage"
 	]
 }
-
