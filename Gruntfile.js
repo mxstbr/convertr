@@ -1,3 +1,5 @@
+var commandExists = require('command-exists');
+
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
@@ -133,22 +135,36 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask("reloadChrome", "reload extension", function() {
+    var done = this.async();
+    return commandExists('chrome-cli', function(err, exists) {
+      if (exists) {
+        reloadExtension('chrome-cli', done);
+      } else {
+        return commandExists('canary-cli', function(err, exists) {
+          if (exists) {
+            return reloadExtension('canary-cli', done);
+          }
+        })
+      }
+    })
+  });
+
+  function reloadExtension(command, done) {
     var sys = require("sys");
     var exec = require("child_process").exec;
-    var done = this.async();
-    return exec("chrome-cli list tabs", function(error, stdout, stderr) {
+    return exec(command + " list tabs", function(error, stdout, stderr) {
       var tabId, _ref;
       if (tabId = (_ref = stdout.match(/\[(\d+:)?([\d]+)\] Extensions/)) != null ? _ref[2] : void 0) {
-        return exec("chrome-cli reload -t " + tabId, function(error, stdout, stderr) {
+        return exec(command + " reload -t " + tabId, function(error, stdout, stderr) {
           return done();
         });
       } else {
-        return exec("chrome-cli open chrome://extensions && chrome-cli reload", function(error, stdout, stderr) {
+        return exec(command + " open chrome://extensions && " + command + " reload", function(error, stdout, stderr) {
           return done();
         });
       }
     });
-  });
+  }
 
   grunt.loadNpmTasks("grunt-sass");
   grunt.loadNpmTasks("grunt-config");
