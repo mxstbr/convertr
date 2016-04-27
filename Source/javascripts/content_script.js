@@ -13,13 +13,14 @@ const settings = require('./constants/defaultSettings');
 // Initialize globally needed variables
 let regexps = {};
 
-// Get the settings on load
+// Parse on load
 window.onload = () => {
 	run(settings);
 };
 
-// Get the settings when something changes in the storage
+// Reparse with new settings when they change
 chrome.storage.onChanged.addListener((changes) => {
+	// Update settings with changes
 	for (const key in changes) {
 		if ({}.hasOwnProperty.call(changes, key)) {
 			settings[key] = changes[key];
@@ -28,8 +29,14 @@ chrome.storage.onChanged.addListener((changes) => {
 	run(settings);
 });
 
+/*
+ * Main function
+ */
 function run() {
+	// Create the regular expressions
+	// TODO Figure out if we need to do this everytime
 	regexps = createRegexps(imperialUnits, metricUnits);
+	// Parse the body
 	parseElement(document.body, (textNode) => {
 		const text = textNode.nodeValue;
 		if (isWhitespace(text) === false) {
