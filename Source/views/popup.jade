@@ -4,29 +4,5 @@ html
     title Convertr's Popup
     link(rel='stylesheet', type='text/css', href='css/toggle.css')
   body
-    input#advanced(type='checkbox')
-    label.button.button--advanced(for='advanced') Advanced
-    .tab.tab--beginner
-      label
-        input#systemCheckbox(type='checkbox')
-        | Imperial to metric
-    .tab.tab--advanced
-      label.setting
-        input#length(type='checkbox')
-        | Length
-      label.setting
-        input#mass(type='checkbox')
-        | Mass
-      label.setting
-        input#volume(type='checkbox')
-        | Volume
-      label.setting
-        input#temperature(type='checkbox')
-        | Temperature
-      label.setting
-        input#speed(type='checkbox')
-        | Speed
-      label.setting
-        input#decimalplaces(type='number', min='0', max='99')
-        | Decimal places (this setting requires a page refresh)
+    #app
     script(src='js/toggle.js')
