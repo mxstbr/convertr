@@ -11,11 +11,25 @@ let settings = require('./constants/defaultSettings');
 const createRegexps = require('./utils/createRegexps');
 const parseElement = require('./utils/parseElement');
 const stripDigits = require('./utils/stripDigits');
+const convertToMetric = require('./utils/convertToMetric');
+const convertToImperial = require('./utils/convertToImperial');
 
 // Create the regular expressions to match units
 const regexps = {};
-assign(regexps, createRegexps(imperialUnits));
-assign(regexps, createRegexps(metricUnits));
+
+// Remove categories (light, mass, ...) before creating regexps
+const imperialUnitsWithoutCategories = {};
+Object.keys(imperialUnits).forEach((category) => {
+	Object.assign(imperialUnitsWithoutCategories, imperialUnits[category]);
+});
+
+const metricUnitsWithoutCategories = {};
+Object.keys(metricUnits).forEach((category) => {
+	Object.assign(metricUnitsWithoutCategories, metricUnits[category]);
+});
+
+assign(regexps, createRegexps(imperialUnitsWithoutCategories));
+assign(regexps, createRegexps(metricUnitsWithoutCategories));
 
 // Parse on load
 window.onload = () => {
@@ -71,167 +85,10 @@ function parseText(text) {
 					// Remove all commatas
 					match[k] = match[k].replace(/,/g, '.');
 
-					// Convert to appropriate units and round to decimalPlaces decimal Places
-					// Default: 2
-					if (settings.length === settings.metric) {
-						switch (key) {
-							case 'inch':
-								result = match[k] * 2.54;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} cm `;
-								break;
-							case 'feet':
-								result = match[k] * 30.48;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} cm `;
-								break;
-							case 'yard':
-								result = match[k] * 0.9144;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} m `;
-								break;
-							case 'mile':
-								result = match[k] * 1.609344;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} km `;
-								break;
-						}
-					} else {
-						switch (key) {
-							case 'millimeter':
-								result = match[k] * 0.0393700787;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} in. `;
-								break;
-							case 'centimeter':
-								result = match[k] * 0.393700787;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} in. `;
-								break;
-							case 'meter':
-								result = match[k] * 1.0936133;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} yd `;
-								break;
-							case 'kilometer':
-								result = match[k] * 0.62137119;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} mi `;
-								break;
-						}
-					}
+					const isMetric = Object.keys(metricUnitsWithoutCategories).indexOf(key) !== -1;
+					const converter = isMetric ? convertToImperial : convertToMetric;
 
-					if (settings.mass === settings.metric) {
-						switch (key) {
-							case 'ounce':
-								result = match[k] * 28.349523;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} g `;
-								break;
-							case 'pound':
-								result = match[k] * 0.45359237;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} kg `;
-								break;
-							case 'stone':
-								result = match[k] * 6.35029318;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} kg `;
-								break;
-						}
-					} else {
-						switch (key) {
-							case 'milligram':
-								result = match[k] * 0.0000352739619;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} oz `;
-								break;
-							case 'gram':
-								result = match[k] * 0.0022046226;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} lbs `;
-								break;
-							case 'kilogram':
-								result = match[k] * 2.2046226;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} lbs `;
-								break;
-						}
-					}
-
-					if (settings.volume === settings.metric) {
-						switch (key) {
-							case 'fluidounce':
-								result = match[k] * 29.57270;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} ml `;
-								break;
-							case 'pint':
-								result = match[k] * 0.473176473;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} l `;
-								break;
-							case 'quart':
-								result = match[k] * 1.13652297;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} l `;
-								break;
-							case 'gallon':
-								result = match[k] * 3.78541178;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} l `;
-								break;
-						}
-					} else {
-						switch (key) {
-							case 'milliliter':
-								result = match[k] * 0.03381497;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} fl oz `;
-								break;
-							case 'liter':
-								result = match[k] * 0.2641795;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} gal `;
-								break;
-						}
-					}
-
-					if (settings.temperature === settings.metric) {
-						switch (key) {
-							case 'fahrenheit':
-								result = ((match[k] - 32) * (5 / 9));
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} °C `;
-								break;
-						}
-					} else {
-						switch (key) {
-							case 'celsius':
-								result = (match[k] * (9 / 5)) + 32;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} °F `;
-								break;
-						}
-					}
-
-					if (settings.speed === settings.metric) {
-						switch (key) {
-							case 'mph':
-								result = match[k] * 1.609344;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} kph `;
-								break;
-						}
-					} else {
-						switch (key) {
-							case 'kph':
-								result = match[k] / 1.609344;
-								result = result.toFixed(settings.decimalPlaces.valueOf());
-								result = ` ${result} mph `;
-								break;
-						}
-					}
+					result = converter(match[k], key);
 
 					if (result === undefined) {
 						result = matchcopy.original;
