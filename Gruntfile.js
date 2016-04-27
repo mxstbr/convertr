@@ -90,6 +90,7 @@ module.exports = function(grunt) {
       someName: {
         entry: {
           content_script: "./Source/javascripts/content_script.js",
+          toggle: "./Source/javascripts/toggle.js",
         },
         output: {
           path: "<%= grunt.config.get('buildDir') %>/js",
