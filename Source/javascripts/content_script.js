@@ -52,6 +52,7 @@ function run() {
  * Finds and converts all the units found in a string
  */
 function convertUnits(text) {
+	debugger;
 	let newText = text;
 	map(regexps, (_, unit) => { // eslint-disable-line no-restricted-syntax
 		// Check if any of the units are in the text
@@ -75,6 +76,7 @@ function convertUnits(text) {
 					// TODO Sophisticated logic to find out into which unit to convert
 					convertTo = findKey(conversionMap, (metricUnit) => !!metricUnit[unit]);
 					result = conversionMap[convertTo][unit](normalizedDigits, true);
+					result = result.toFixed(decimalPlaces);
 					result = ` ${result} ${metricUnits[convertTo][0]} `;
 				} else {
 					// TODO Sophisticated logic to find out into which unit to convert
