@@ -1,3 +1,4 @@
+// The first value in the array will be used for output formatting!
 const imperialUnits = {
 	// Length
 	inch: ['in\\.', 'inch', 'inches'],
@@ -14,7 +15,7 @@ const imperialUnits = {
 	quart: ['qt', 'quart', 'quarts'],
 	gallon: ['gal', 'gallon', 'gallons'],
 	// Temperature
-	fahrenheit: ['F', '° F', '°F', 'degrees F', 'degrees Fahrenheit', 'Fahrenheit'],
+	fahrenheit: ['°F', 'F', '° F', 'degrees F', 'degrees Fahrenheit', 'Fahrenheit'],
 	// Speed
 	mph: ['mph', 'mp/h', 'miles per hour', 'miles/hour'],
 };

@@ -1,3 +1,4 @@
+// The first value in the array will be used for output formatting!
 const metricUnits = {
 	// Length
 	millimeter: ['mm', 'millimeter', 'millimeters', 'milimeter', 'milimeters', 'millimetre', 'millimetres', 'milimetre', 'milimetres'],
@@ -12,7 +13,7 @@ const metricUnits = {
 	milliliter: ['ml', 'milliliter', 'milliliters', 'mililiter', 'mililiters', 'millilitre', 'millilitres', 'mililitre', 'mililitres'],
 	liter: ['l', 'liter', 'liters', 'litre', 'litres'],
 	// Temperature
-	celsius: ['C', '° C', '°C', 'degrees C', 'degrees Celsius', 'Celsius'],
+	celsius: ['°C', 'C', '° C', 'degrees C', 'degrees Celsius', 'Celsius'],
 	// Speed
 	kph: ['kph', 'kp/h', 'kilometers per hour', 'kilometers/hour', 'km/h', 'kmh', 'kmph'],
 };
