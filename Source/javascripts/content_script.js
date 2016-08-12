@@ -22,7 +22,6 @@ assign(regexps, createRegexps(metricUnits));
 
 // Parse on load
 window.onload = () => {
-	console.log('RUN')
 	run();
 };
 
@@ -52,7 +51,6 @@ function run() {
  * Finds and converts all the units found in a string
  */
 function convertUnits(text) {
-	debugger;
 	let newText = text;
 	map(regexps, (_, unit) => { // eslint-disable-line no-restricted-syntax
 		// Check if any of the units are in the text
@@ -70,19 +68,13 @@ function convertUnits(text) {
 
 				// Convert to appropriate units and round to decimalPlaces decimal Places
 				// Default: 2
-				const decimalPlaces = settings.decimalPlaces.valueOf();
-				let convertTo;
+				// TODO Sophisticated logic to find out into which unit to convert
+				const convertTo = findKey(conversionMap[unit], () => true);
+				result = conversionMap[unit][convertTo](normalizedDigits);
+				result = result.toFixed(settings.decimalPlaces.valueOf());
 				if (imperialUnits[unit]) {
-					// TODO Sophisticated logic to find out into which unit to convert
-					convertTo = findKey(conversionMap, (metricUnit) => !!metricUnit[unit]);
-					result = conversionMap[convertTo][unit](normalizedDigits, true);
-					result = result.toFixed(decimalPlaces);
 					result = ` ${result} ${metricUnits[convertTo][0]} `;
 				} else {
-					// TODO Sophisticated logic to find out into which unit to convert
-					convertTo = findKey(conversionMap[unit], () => true);
-					result = conversionMap[unit][convertTo](normalizedDigits);
-					result = result.toFixed(decimalPlaces);
 					result = ` ${result} ${imperialUnits[convertTo][0]} `;
 				}
 

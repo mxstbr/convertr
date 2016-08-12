@@ -1,7 +1,7 @@
 // The first value in the array will be used for output formatting!
 const imperialUnits = {
 	// Length
-	inch: ['in\\.', 'inch', 'inches'],
+	inch: ['in', 'in\\.', 'inch', 'inches'],
 	feet: ['ft', 'feet', 'foot'],
 	yard: ['yd', 'yard', 'yards'],
 	mile: ['mi', 'mile', 'miles'],

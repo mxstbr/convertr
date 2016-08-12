@@ -1,73 +1,61 @@
+import merge from 'lodash/merge';
 import conversionFactory from '../utils/conversion-factory';
 
 /**
- * Map of units
- * Structure:
- * [from]: {
- *   [to]: ConversionFunction(unitAmount, reverse): convertedUnitAmount
- * }
- * @type {Object}
+ * Map of units and their conversions
+ *
+ * The result looks like this:
+ *
+ * millimeter: {
+ *   inch: (unit) => unit * 0.0383701,
+ * },
+ * inch: {
+ *   millimeter: (unit) => unit / 0.0383701,
+ * },
  */
-const conversionMap = {
-  millimeter: {
-    inch: conversionFactory(0.0393701),
-    feet: conversionFactory(0.00328084),
-    yard: conversionFactory(0.00109361),
-    mile: conversionFactory(6.21371e-7),
-  },
-  centimeter: {
-    inch: conversionFactory(0.393700787),
-    feet: conversionFactory(0.0328084),
-    yard: conversionFactory(0.0109361),
-    mile: conversionFactory(6.21371e-6),
-  },
-  meter: {
-    inch: conversionFactory(39.3701),
-    feet: conversionFactory(3.28084),
-    yard: conversionFactory(1.09361),
-    mile: conversionFactory(0.000621371),
-  },
-  kilometer: {
-    inch: conversionFactory(39370.1),
-    feet: conversionFactory(3280.84),
-    yard: conversionFactory(1093.61),
-    mile: conversionFactory(0.621371),
-  },
-  milligram: {
-    ounce: conversionFactory(3.5274e-5),
-    pound: conversionFactory(2.20462e-6),
-    stone: conversionFactory(1.57473e-7),
-  },
-  gram: {
-    ounce: conversionFactory(0.035274),
-    pound: conversionFactory(0.00220462),
-    stone: conversionFactory(0.000157473),
-  },
-  kilogram: {
-    ounce: conversionFactory(35.274),
-    pound: conversionFactory(2.20462),
-    stone: conversionFactory(0.157473),
-  },
-  milliliter: {
-    fluidounce: conversionFactory(0.03519505609893336),
-    pint: conversionFactory(0.0017597528049466677584),
-    quart: conversionFactory(0.0008798764024733338792),
-    gallon: conversionFactory(0.0002199691006183334698),
-  },
-  liter: {
-    fluidounce: conversionFactory(35.1951),
-    pint: conversionFactory(1.759755000011),
-    quart: conversionFactory(0.87987750000550013496),
-    gallon: conversionFactory(0.21996937500137503374),
-  },
-  celsius: {
-    fahrenheit: (unit, reverse) => (
-			reverse ? (unit - 32) * (5 / 9) : unit * (9 / 5) + 32
-    ),
-  },
-  kph: {
-    mph: conversionFactory(0.621371),
-  },
+const conversionMap = merge(
+  conversionFactory(['millimeter', 'inch'], 0.0393701),
+  conversionFactory(['millimeter', 'feet'], 0.00328084),
+  conversionFactory(['millimeter', 'yard'], 0.00109361),
+  conversionFactory(['millimeter', 'mile'], 6.21371e-7),
+  conversionFactory(['centimeter', 'inch'], 0.393700787),
+  conversionFactory(['centimeter', 'feet'], 0.0328084),
+  conversionFactory(['centimeter', 'yard'], 0.0109361),
+  conversionFactory(['centimeter', 'mile'], 6.21371e-6),
+  conversionFactory(['meter', 'inch'], 39.3701),
+  conversionFactory(['meter', 'feet'], 3.28084),
+  conversionFactory(['meter', 'yard'], 1.09361),
+  conversionFactory(['meter', 'mile'], 0.000621371),
+  conversionFactory(['kilometer', 'inch'], 39370.1),
+  conversionFactory(['kilometer', 'feet'], 3280.84),
+  conversionFactory(['kilometer', 'yard'], 1093.61),
+  conversionFactory(['kilometer', 'mile'], 0.621371),
+  conversionFactory(['milligram', 'ounce'], 3.5274e-5),
+  conversionFactory(['milligram', 'pound'], 2.20462e-6),
+  conversionFactory(['milligram', 'stone'], 1.57473e-7),
+  conversionFactory(['gram', 'ounce'], 0.035274),
+  conversionFactory(['gram', 'pound'], 0.00220462),
+  conversionFactory(['gram', 'stone'], 0.000157473),
+  conversionFactory(['kilogram', 'ounce'], 35.274),
+  conversionFactory(['kilogram', 'pound'], 2.20462),
+  conversionFactory(['kilogram', 'stone'], 0.157473),
+  conversionFactory(['milliliter', 'fluidounce'], 0.03519505609893336),
+  conversionFactory(['milliliter', 'pint'], 0.0017597528049466677584),
+  conversionFactory(['milliliter', 'quart'], 0.0008798764024733338792),
+  conversionFactory(['milliliter', 'gallon'], 0.0002199691006183334698),
+  conversionFactory(['liter', 'fluidounce'], 35.1951),
+  conversionFactory(['liter', 'pint'], 1.759755000011),
+  conversionFactory(['liter', 'quart'], 0.87987750000550013496),
+  conversionFactory(['liter', 'gallon'], 0.21996937500137503374),
+  conversionFactory(['kph', 'mph'], 0.621371)
+);
+
+// Hard code celsius and fahrenheit formulas
+conversionMap.celsius = {
+  fahrenheit: (unit) => unit * (9 / 5) + 32,
+};
+conversionMap.fahrenheit = {
+  celsius: (unit) => (unit - 32) * (5 / 9),
 };
 
 export default conversionMap;
