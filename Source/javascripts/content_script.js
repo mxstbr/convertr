@@ -1,12 +1,10 @@
 const isWhitespace = require('is-whitespace');
-const assign = require('object-assign');
 const findKey = require('lodash/findKey');
 const map = require('lodash/map');
 
 // Constants
-const metricUnits = require('./constants/metricUnits');
-const imperialUnits = require('./constants/imperialUnits');
-const conversionMap = require('./constants/conversion-map').default;
+import units from './constants/units';
+import conversionMap from './constants/conversion-map';
 // Default settings
 let settings = require('./constants/defaultSettings');
 
@@ -16,9 +14,7 @@ const getTextNodes = require('./utils/getTextNodes');
 const getNumbers = require('./utils/getNumbers');
 
 // Create the regular expressions to match units
-const regexps = {};
-assign(regexps, createRegexps(imperialUnits));
-assign(regexps, createRegexps(metricUnits));
+const regexps = createRegexps(units);
 
 // Parse on load
 window.onload = () => {
@@ -53,38 +49,36 @@ function run() {
 function convertUnits(text) {
 	let newText = text;
 	map(regexps, (_, unit) => { // eslint-disable-line no-restricted-syntax
+		// Check if we're converting the current unit system and unit type, if not bail out
+		const systemEnabled = units[unit].system === 'metric' ? settings.metric : !settings.metric;
+		const typeEnabled = settings[units[unit].type];
+		if (!systemEnabled || !typeEnabled) {
+			return;
+		}
 		// Check if any of the units are in the text
 		const unitsInText = text.match(regexps[unit]);
-		// If they are
-		if (unitsInText !== null) {
-			// Replace all occurences of them
-			for (let k = 0; k < unitsInText.length; k++) {
-				let result;
-
-				// Get the digits
-				const digits = getNumbers(unitsInText[k]);
-				// Remove all spaces and commatas
-				const normalizedDigits = digits.replace(/\s/g, '').replace(/,/g, '.');
-
-				// Convert to appropriate units and round to decimalPlaces decimal Places
-				// Default: 2
-				// TODO Sophisticated logic to find out into which unit to convert
-				const convertTo = findKey(conversionMap[unit], () => true);
-				result = conversionMap[unit][convertTo](normalizedDigits);
-				result = result.toFixed(settings.decimalPlaces.valueOf());
-				if (imperialUnits[unit]) {
-					result = ` ${result} ${metricUnits[convertTo][0]} `;
-				} else {
-					result = ` ${result} ${imperialUnits[convertTo][0]} `;
-				}
-
-				if (result === undefined) {
-					result = unitsInText[k];
-				}
-
-				newText = newText.replace(unitsInText[k], result);
-			}
+		if (unitsInText === null) {
+			return;
 		}
+
+		// Replace all the occurences of the current unit
+		map(unitsInText, (unitInText) => {
+			let result;
+			// Get the digits
+			const digits = getNumbers(unitInText);
+			// Remove all spaces and commatas
+			const normalizedDigits = digits.replace(/\s/g, '').replace(/,/g, '.');
+			// TODO Sophisticated logic to find out into which unit to convert to
+			const convertTo = findKey(conversionMap[unit], () => true);
+			// Convert numbers to new unit
+			result = conversionMap[unit][convertTo](normalizedDigits);
+			// Cut to decimalPlaces decimal places
+			result = result.toFixed(settings.decimalPlaces.valueOf());
+			// Format for output
+			result = ` ${result} ${units[convertTo].suffixes[0]} `;
+			// Replace the original text with the converted, formatted result
+			newText = newText.replace(unitInText, result);
+		});
 	});
 	return newText;
 }
