@@ -6,7 +6,7 @@ const map = require('lodash/map');
 import units from './constants/units';
 import conversionMap from './constants/conversion-map';
 // Default settings
-let settings = require('./constants/defaultSettings');
+let settings = require('./constants/default-settings');
 
 // Utilities
 const createRegexps = require('./utils/createRegexps');

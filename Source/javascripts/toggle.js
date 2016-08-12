@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import defaultSettings from './constants/defaultSettings';
+import defaultSettings from './constants/default-settings';
 
 import OptionsPopup from './containers/OptionsPopup';
 
