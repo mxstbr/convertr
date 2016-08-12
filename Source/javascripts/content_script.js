@@ -10,7 +10,7 @@ let settings = require('./constants/defaultSettings');
 // Utilities
 const createRegexps = require('./utils/createRegexps');
 const getTextNodes = require('./utils/getTextNodes');
-const stripDigits = require('./utils/stripDigits');
+const getNumbers = require('./utils/getNumbers');
 
 // Create the regular expressions to match units
 const regexps = {};
@@ -53,7 +53,7 @@ function parseText(text) {
 	for (const key in regexps) { // eslint-disable-line no-restricted-syntax
 		if ({}.hasOwnProperty.call(regexps, key)) {
 			// Check if any of the units are in the text
-			const match = newText.match(regexps[key]);
+			const match = text.match(regexps[key]);
 			// If they are
 			if (match !== null) {
 				// Replace all occurences of them
@@ -65,7 +65,7 @@ function parseText(text) {
 					matchcopy.unit = key;
 					matchcopy.original = match[k];
 					// Get the digits
-					match[k] = stripDigits(match[k]);
+					match[k] = getNumbers(match[k]);
 					// Remove all spaces
 					match[k] = match[k].replace(/\s/g, '');
 					// Remove all commatas
