@@ -6,7 +6,9 @@ const map = require('lodash/map');
 import units from './constants/units';
 import conversionMap from './constants/conversion-map';
 // Default settings
-let settings = require('./constants/default-settings');
+const defaultSettings = require('./constants/default-settings');
+let settings = false;
+let windowLoaded = false;
 
 // Utilities
 const createRegexps = require('./utils/createRegexps');
@@ -18,8 +20,15 @@ const regexps = createRegexps(units);
 
 // Parse on load
 window.onload = () => {
-	run();
+	windowLoaded = true;
+	if (settings) run();
 };
+
+// Load settings
+chrome.storage.sync.get('settings', (data) => {
+	settings = data.settings || defaultSettings;
+	if (windowLoaded) run();
+});
 
 // Reparse with new settings when they change
 chrome.storage.onChanged.addListener((changes) => {

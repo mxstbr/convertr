@@ -38,7 +38,6 @@ export default class OptionsPopup extends Component {
     }
 
     const settings = Object.assign({}, this.state.settings, { [option]: value });
-    console.log('SET OPTION');
     chrome.storage.sync.set({ settings: settings });
   }
 
