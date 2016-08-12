@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import defaultSettings from './constants/default-settings';
 
 import OptionsPopup from './containers/OptionsPopup';
-
-import defaultSettings from './constants/defaultSettings';
 
 chrome.storage.sync.get('settings', (data) => {
 	const settings = data.settings || defaultSettings;

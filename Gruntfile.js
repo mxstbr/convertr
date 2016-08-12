@@ -37,26 +37,6 @@ module.exports = function(grunt) {
       }
     },
 
-    sass: {
-      dev: {
-        options: {
-          style: "expanded",
-          // includePaths: [].concat(require('node-bourbon').includePaths).concat(require('node-neat').includePaths),
-          noCache: true,
-          sourceMap: false
-        },
-        files: [
-          {
-            expand: true,
-            cwd: "Source/stylesheets",
-            src: "*.sass",
-            dest: "<%= grunt.config.get('buildDir') %>/css",
-            ext: ".css"
-          }
-        ]
-      }
-    },
-
     jade: {
       compile: {
         files: [
@@ -166,7 +146,6 @@ module.exports = function(grunt) {
     });
   }
 
-  grunt.loadNpmTasks("grunt-sass");
   grunt.loadNpmTasks("grunt-config");
   grunt.loadNpmTasks("grunt-webpack");
   grunt.loadNpmTasks("grunt-contrib-watch");
@@ -178,7 +157,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-notify");
   grunt.loadNpmTasks("grunt-zip");
 
-  grunt.registerTask("main", ["clean", "webpack", "sass", "jade", "copy"]);
+  grunt.registerTask("main", ["clean", "webpack", "jade", "copy"]);
 
   var defaultTasks = ["config:dev", "main"];
   if (grunt.option('reload-extension')) {

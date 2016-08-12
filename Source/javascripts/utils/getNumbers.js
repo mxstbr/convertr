@@ -1,9 +1,9 @@
 /**
- * Strips the digits from a String
+ * Get the numbers out of a string
  * @param {string} text
  * @returns {number} the digits from the string
  */
-function stripDigits(text) {
+function getNumbers(text) {
 	// Regular expression to get the digits
 	const numbers = /([\d]+[\s,.]?[\d]*)+/g;
 	// Match the regex
@@ -11,4 +11,4 @@ function stripDigits(text) {
 	return text.match(numbers)[0];
 }
 
-module.exports = stripDigits;
+module.exports = getNumbers;
