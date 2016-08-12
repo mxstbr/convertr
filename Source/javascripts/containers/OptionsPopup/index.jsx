@@ -53,8 +53,6 @@ export default class OptionsPopup extends Component {
   renderAdvanced() {
     return (
       <div className="tab tab--advanced">
-        <h2>Advanced</h2>
-
         {this.checkbox('Length', 'length')}
         {this.checkbox('Mass', 'mass')}
         {this.checkbox('Volume', 'volume')}
@@ -72,16 +70,16 @@ export default class OptionsPopup extends Component {
   renderBeginner() {
     return (
       <div className="tab tab--beginner">
-        <h2>Beginner</h2>
         {this.checkbox('Imperial to metric', 'metric')}
       </div>
     );
   }
 
   render() {
+    const advancedButtonText = this.state.showAdvanced ? 'basic options' : 'advanced options';
     return (
       <div className="options-popup">
-        <a onClick={this.toggleMode.bind(this)}>{this.state.showAdvanced ? 'Beginner' : 'Advanced'}</a>
+        <a className="button--advanced" onClick={this.toggleMode.bind(this)}>{advancedButtonText}</a>
         {this.state.showAdvanced ? this.renderAdvanced() : this.renderBeginner()}
       </div>
     );

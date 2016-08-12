@@ -5,5 +5,6 @@ import defaultSettings from './constants/default-settings';
 import OptionsPopup from './containers/OptionsPopup';
 
 chrome.storage.sync.get('settings', (data) => {
-	ReactDOM.render(<OptionsPopup settings={data.settings || defaultSettings} />, document.getElementById('app'));
+	const settings = data.settings || defaultSettings;
+	ReactDOM.render(<OptionsPopup settings={settings} />, document.getElementById('app'));
 });
