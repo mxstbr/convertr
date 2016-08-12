@@ -9,7 +9,7 @@ let settings = require('./constants/defaultSettings');
 
 // Utilities
 const createRegexps = require('./utils/createRegexps');
-const parseElement = require('./utils/parseElement');
+const getTextNodes = require('./utils/getTextNodes');
 const stripDigits = require('./utils/stripDigits');
 
 // Create the regular expressions to match units
@@ -35,7 +35,7 @@ chrome.storage.onChanged.addListener((changes) => {
  */
 function run() {
 	// Parse the body
-	parseElement(document.body, (textNode) => {
+	getTextNodes(document.body, (textNode) => {
 		const text = textNode.nodeValue;
 		if (isWhitespace(text) === false) {
 			const newText = parseText(text);
